@@ -1,0 +1,52 @@
+<?php
+namespace App\DAO;
+
+use App\Models\Raca;
+
+class RacaDAO
+{
+    ###############################################################################
+
+    public function save(Raca $raca): Raca
+    {
+        return ($raca->getId() === null) ? $this->insert($raca) : $this->update($raca);
+    }
+
+    ###############################################################################
+    
+    public function insert(Raca $raca): Raca
+    {
+        var_dump($raca);
+        return new Raca();
+    }
+
+    ###############################################################################
+
+    public function update(Raca $raca): Raca
+    {
+        var_dump($raca);
+        return new Raca();
+    }
+
+    ###############################################################################
+    
+    public function selectbyId(int $id): Raca
+    {
+        return new Raca();
+    }
+
+    ###############################################################################
+    
+    public function select(Raca $raca): array
+    {
+        return [];
+    }
+
+    ###############################################################################
+
+    public function delete(int $id): bool
+    {
+        return false;
+    }
+    
+}

@@ -1,0 +1,10 @@
+{
+    "name": "fichasmonis/rpg",
+    "description": "Ficha de RPG",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
