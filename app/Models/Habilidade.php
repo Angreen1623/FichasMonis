@@ -4,17 +4,23 @@ namespace App\Models;
 
 use App\DAO\HabilidadeDAO;
 
-class Habilidade
+class Habilidade extends Model
 {
-    private $id;
-    private $nome;
-    private $descricao;
-    private $img;
+    private ?int $id;
+    private ?string $nome;
+    private ?string $descricao;
+    private ?string $img;
 
     #region CRUD
+
     function getAll(): array
     {
         return (new HabilidadeDAO())->select();
+    }
+
+    function getById(int $id): array
+    {
+        return (new HabilidadeDAO())->selectById($id);
     }
 
     #endregion

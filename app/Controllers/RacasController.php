@@ -12,5 +12,4 @@ class RacasController extends \App\Core\Controller
         $this->view('catalogos/racas', ['racas' => $racas]);
     }
 
-    
 }

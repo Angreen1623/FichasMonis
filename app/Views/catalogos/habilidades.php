@@ -10,12 +10,12 @@
     <?php 
     $this->view("layout/navbar");
 
-    if (isset($habs)) {
+    if (isset($hab)) {
         echo "<h2>Habilidades:</h2>";
-        foreach ($habs as $hab) {
-            echo "<p>Nome: " . $hab->getNome() . "</p>";
-            echo "<p>Descrição: " . $hab->getDescricao() . "</p>";
-            echo "<p>Imagem: " . $hab->getImg() . "</p>";
+        foreach ($hab as $h) {
+            echo "<p>Nome: " . $h->getNome() . "</p>";
+            echo "<p>Descrição: " . $h->getDescricao() . "</p>";
+            echo "<p>Imagem: " . $h->getImg() . "</p>";
             echo "<hr>";
         }
     } else {

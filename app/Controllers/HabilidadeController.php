@@ -6,10 +6,10 @@ class HabilidadeController extends \App\Core\Controller
 {
     public function listar(): void
     {
-        $habs = $this->model('Habilidade');
-        $habs = $habs->getAll();
+        $hab = $this->model('Habilidade');
+        $hab = $hab->getAll();
 
-        $this->view('catalogos/habilidades', ['habs' => $habs]);
+        $this->view('catalogos/habilidades', ['hab' => $hab]);
     }
 
     

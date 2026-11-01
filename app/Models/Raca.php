@@ -4,19 +4,28 @@ namespace App\Models;
 
 use App\DAO\RacaDAO;
 
-class Raca
+class Raca extends Model
 {
-    private $id;
-    private $nome;
-    private $cap_carga;
-    private $descricao;
-    private $velocidade;
+    private ?int $id = null;
+    private ?string $nome = null;
+    private ?int $cap_carga = null;
+    private ?string $descricao = null;
+    private ?int $velocidade = null;
 
     #region CRUD
 
     function getAll(): array
     {
         return (new RacaDAO())->select();
+    }
+
+    #endregion
+
+    #region relationships
+
+    function carraca(): array
+    {
+        return (new CarRaca())->getByRaca($this->id);
     }
 
     #endregion

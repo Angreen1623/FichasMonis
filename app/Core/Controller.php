@@ -12,7 +12,7 @@ abstract class Controller
 
         if (!is_file($file)) {
             throw new \RuntimeException(
-                "View não encontrada: $view"
+                "View ".$view." não encontrada: $view"
             );
         }
 
@@ -50,15 +50,28 @@ abstract class Controller
     }
 
     protected function model(string $model): object
-{
-    $modelClass = '\\App\\Models\\' . $model;
+    {
+        $modelClass = '\\App\\Models\\' . $model;
 
-    if (!class_exists($modelClass)) {
-        throw new \RuntimeException(
-            "Model não encontrada: $model"
-        );
+        if (!class_exists($modelClass)) {
+            throw new \RuntimeException(
+                "Model não encontrada: $model"
+            );
+        }
+
+        return new $modelClass();
     }
 
-    return new $modelClass();
-}
+    protected function service(string $service): object
+    {
+        $serviceClass = '\\App\\Services\\' . $service . 'Service';
+
+        if (!class_exists($serviceClass)) {
+            throw new \RuntimeException(
+                "Service não encontrado: $service"
+            );
+        }
+
+        return new $serviceClass();
+    }
 }

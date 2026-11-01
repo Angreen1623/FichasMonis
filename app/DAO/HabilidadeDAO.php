@@ -26,7 +26,7 @@ class HabilidadeDAO extends Database
             $hab->setNome($row["nome"]);
             $hab->setDescricao($row["descricao"]);
             $hab->setImg($row["img"]);
-
+    
             $habs[] = $hab;
         }
         
@@ -38,5 +38,27 @@ class HabilidadeDAO extends Database
     }
 
     ###########################################################################
-    
+
+    public function selectById(int $id): array
+    {
+        $query = "SELECT * FROM habilidade WHERE id_hab = ?";
+
+        $rows = $this->sql($query, [$id]);
+
+        if (empty($rows)) {
+            throw new \Exception("Habilidade não encontrada.");
+        }
+
+        $hab = new Habilidade();
+
+        $row = $rows[0];
+
+        $hab->setId($row["id_hab"]);
+        $hab->setNome($row["nome"]);
+        $hab->setDescricao($row["descricao"]);
+        $hab->setImg($row["img"]);
+
+        return [$hab];
+    }
+
 }
