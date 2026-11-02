@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/10/2026 às 02:43
+-- Tempo de geração: 02/11/2026 às 02:31
 -- Versão do servidor: 10.11.16-MariaDB
 -- Versão do PHP: 8.5.12
 
@@ -21,8 +21,56 @@ SET time_zone = "+00:00";
 -- Banco de dados: `bd_fichas_monis`
 --
 
-create database `bd_fichas_monis`;
-use `bd_fichas_monis`;
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `arquetipo`
+--
+
+CREATE TABLE `arquetipo` (
+  `id_arq` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `descricao` text NOT NULL,
+  `pv` smallint(5) UNSIGNED NOT NULL,
+  `pm` smallint(5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Despejando dados para a tabela `arquetipo`
+--
+
+INSERT INTO `arquetipo` (`id_arq`, `nome`, `descricao`, `pv`, `pm`) VALUES
+(1, 'Ameaçador', 'Um líder perigoso, e um manipulador maior ainda, mexer com você é perigoso, e você sabe disso, e vai usar de sua reputação para conseguir o que pretende. Um líder, uma figura respeitada e com renome por toda Monisland, Seus feitos expandem além de sua região, levando medo aqueles que não seguem a sua justiça!', 3, 4),
+(2, 'Atirador', 'Uma mira excelente pode ser o que vai salvar a sua vida, o olhar certo, a precisão, você é a artilharia do grupo em Monisland, talvez o combate acabe antes mesmo do inimigo ter notado o seu grupo; Seja com arco, Lança, Armas magicas, construtos, o combate a distancia está resolvido se você for a pessoa responsável para resolver essa situação, você é os olhos que o grupo precisa.', 5, 2),
+(3, 'Curandeiro', 'O que é do mundo sem os doutores e curandeiros que habitam esses mundos, em Monisland não é diferente. em um mundo onde a tecnologia não é tão avançada, diariamente as pessoas lidam com mazelas que poucos sabem tratar, o curandeiro esta lá para resolver isso, curar as feridas e ajudar os enfermos que vivem nas perigosas terras de Monisland, Tudo que precisamos é uma chance de cura.', 2, 5),
+(4, 'Clerigo', 'No inicio eram 5, e eles formaram todas as terras, assim foi e assim é, e o clérigo é aquele que não só estuda as origens do mundo como também segue a doutrina que a muito os deuses propuseram aos mortais. nem tudo é tão simples e mesmo selados a força dos deuses pode reverberar para aqueles fieis, os deuses recompensaram aqueles que os louvam os ajudando a alcançarem seus destinos.', 3, 3),
+(5, 'Construtor', 'Por toda a Monisland os mortais construíram suas aldeias a própria mão, formando suas bases, com o avanço das civilizações carroças e barcos para a exploração, mas a tecnologia não podia parar aí o próximo grande invento foram os construtos feitos para ajudar em tarefas simples, porém Monisland é uma terra de aventuras, e não necessariamente um construtor de calibre vai ficar de fora disso.', 4, 3),
+(6, 'Diplomata', 'Por toda a Monisland o dialogo sempre foi responsável por evitar conflitos, sendo a primeira moeda, a assinatura que impedia uma guerra, ou até aquilo que mantinha uma população desolada em segurança, tudo isso com o uso correto da palavra. e muitos se especializam nessa arte. comparar os objetivos de cada um para chegar a um acordo pode ser a principal forma de evitar um conflito maior.', 3, 4),
+(7, 'Demonologo', 'Poucos são aqueles que Lidam com uma das grandes maldições de Monisland, Os demônios são uma força difícil de se lidar sendo um mistério para a maioria dos mortais, um Resquícios da impiedade dos deuses, o demonólogo estudou e pretende tirar proveito desse conhecimento. sendo uma força contra essa punição divina que são os demonios no nosso mundo.', 3, 3),
+(8, 'Enganador', 'O dialogo é uma base de negociação e convivência, e apesar de não ser o melhor em ter uma conversa franca o Enganador sabe falar o necessário para mudar a situação para o seu favor, nem toda negociação precisa ter tudo de uma vez, as vezes ocultar ou inventar informações podem salvar vidas, o que seria de um bom estrategista sem blefes para confundir os inimigos?', 3, 4),
+(9, 'Explorador', 'Sempre esteve no cerne dos mortais descobrir cada canto de Monisland, explorar locais nunca explorados, descobrir novas culturas, aprender na pratica como funciona cada região, o explorador vive uma vida de viagens, sabendo lidar com as adversidades do mundo com exímio, sabendo até como usar o terreno a seu favor, uma vida de viagens sempre vai ser tão agradável quanto finalmente retornar ao lar.', 2, 5),
+(10, 'Feiticeiro', 'A magia está dentro de todos os seres de Monisland, aqueles que se empenham em desvendar os mistérios da manipulação da mana conseguem fazer feitos inimagináveis, não é mistério que algumas raças conseguem fazer isso naturalmente.. mas será que com o estudo certo, com a conjuração certa, seria possível manipular aquilo que não deveria ser manipulado por você.', 2, 5),
+(11, 'Ferreiro', 'Durante o desenvolvimento dos mortais, eles aprenderam a construir ferramentas para facilitar a sua vida, armas para caçar, armaduras para se proteger, venenos para paralisar presas. e nesse âmbito o ferreiro se especializou, construir armas, armaduras e escudos. o ferreiro é o forjador para suas batalhas, sendo um trabalhador que não poupa esforços para usar suas ferramentas.', 4, 3),
+(12, 'Lutador', 'Des dos primórdios o combate é algo necessário, seja contra animais para trazer alimento para casa, ou contra civilizações em guerras pela gloria e sobrevivência da nação, lutas são algo recorrente e por muitas culturas apreciadas e isto não é diferente em Monisland, O lutador é a representação disso, uma pessoa que se especializou em artes marciais para se defender ou ter poder sobre os outros.', 5, 2),
+(13, 'Mateiro', 'A relva toma conta de Monisland, a briga constante de animais inteligentes e instintivos permeia Monisland dês dos primórdios, a guerra territorial a busca constante por comida, a necessidade de aprender os perigos da selva sempre vai permear os mortais, no fim também somos animais, que escolhem tratar uns aos outros como diferentes, no fim o mateiro sabe como explorar os locais não mais ocupados pelos “inteligentes”.', 4, 3),
+(14, 'Protetor', 'Todos precisam de proteção, sempre ouve aqueles que tiveram a vida ameaçada, não só por inveja mas pelos horrores que causavam, inocentes que tinham a aldeia invadida precisavam de uma figura que representasse segurança, nessa necessidade surgiu o protetor, que treinou para não cair fácil para os males do mundo, e muito menos deixar seus aliados caírem, seu grupo sempre estará seguro com você.', 5, 2),
+(15, 'Sensitivo', 'Aqueles que recebem a graça de serem perseguidos por espíritos ainda não estão perto de saberem o grande bem que os aproximam, Espíritos são forças boas presas em um tormento, se segurando a alguém que confiam para lhe darem sua liberdade para outro plano. o sensitivo é um desses iluminados, que recebem respostas de forças místicas que tem conhecimento sobre o presente, o passado e o futuro.', 3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `atributo`
+--
+
+CREATE TABLE `atributo` (
+  `id_atributo` int(10) UNSIGNED NOT NULL,
+  `potencia` smallint(6) NOT NULL DEFAULT 0,
+  `agilidade` smallint(6) NOT NULL DEFAULT 0,
+  `sagacidade` smallint(6) NOT NULL DEFAULT 0,
+  `presenca` smallint(6) NOT NULL DEFAULT 0,
+  `espirito` smallint(6) NOT NULL DEFAULT 0,
+  `percepcao` smallint(6) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -312,6 +360,60 @@ INSERT INTO `carraca` (`id_car_raca`, `id_car`, `id_raca`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `cmtpersonagem`
+--
+
+CREATE TABLE `cmtpersonagem` (
+  `id_cmt_perso` int(10) UNSIGNED NOT NULL,
+  `id_cmt` int(10) UNSIGNED NOT NULL,
+  `id_perso` int(10) UNSIGNED NOT NULL,
+  `valor` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `conhecimento`
+--
+
+CREATE TABLE `conhecimento` (
+  `id_cmt` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Despejando dados para a tabela `conhecimento`
+--
+
+INSERT INTO `conhecimento` (`id_cmt`, `nome`) VALUES
+(1, 'Artes'),
+(2, 'Atletismo'),
+(3, 'Biologia'),
+(4, 'Conduzir'),
+(16, 'Construtor'),
+(17, 'Cozinheiro'),
+(7, 'Demonologia'),
+(6, 'Diplomacia'),
+(18, 'Engenhoqueiro'),
+(5, 'Espiritismo'),
+(19, 'Ferreiro'),
+(8, 'Imponência'),
+(9, 'Infiltração'),
+(10, 'Intuição'),
+(11, 'Investigação'),
+(12, 'Luta'),
+(15, 'Medicina'),
+(13, 'Misticismo'),
+(14, 'Mundo'),
+(21, 'Persuasão'),
+(20, 'Proteção'),
+(22, 'Religião'),
+(23, 'Sobrevivência'),
+(24, 'Vontade');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `detalhecaracteristica`
 --
 
@@ -371,6 +473,18 @@ INSERT INTO `detalhecaracteristica` (`id_det_car`, `id_hab`, `id_car`, `nv`) VAL
 (42, 42, 42, 0),
 (43, 43, 43, 0),
 (44, 44, 44, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `habarquetipo`
+--
+
+CREATE TABLE `habarquetipo` (
+  `id_hab_arq` int(10) UNSIGNED NOT NULL,
+  `id_hab` int(10) UNSIGNED NOT NULL,
+  `id_arq` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -438,6 +552,51 @@ INSERT INTO `habilidade` (`id_hab`, `nome`, `descricao`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `habperonagem`
+--
+
+CREATE TABLE `habperonagem` (
+  `id_hab_perso` int(10) UNSIGNED NOT NULL,
+  `id_hab` int(10) UNSIGNED NOT NULL,
+  `id_perso` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `nivel`
+--
+
+CREATE TABLE `nivel` (
+  `id_nv` int(10) UNSIGNED NOT NULL,
+  `nv_aventureiro` smallint(5) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `personagem`
+--
+
+CREATE TABLE `personagem` (
+  `id_perso` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `regiao` varchar(100) DEFAULT NULL,
+  `idade` smallint(5) UNSIGNED DEFAULT NULL,
+  `img` varchar(2048) DEFAULT NULL,
+  `objetivo` text DEFAULT NULL,
+  `destino` text DEFAULT NULL,
+  `id_status` int(10) UNSIGNED NOT NULL,
+  `id_raca` int(10) UNSIGNED NOT NULL,
+  `id_nv` int(10) UNSIGNED NOT NULL,
+  `id_atributo` int(10) UNSIGNED NOT NULL,
+  `id_item_inventario` int(10) UNSIGNED DEFAULT NULL,
+  `mons` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `raca`
 --
 
@@ -501,9 +660,46 @@ CREATE TABLE `requisitohabilidade` (
   `grupo` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `status`
+--
+
+CREATE TABLE `status` (
+  `id_status` int(10) UNSIGNED NOT NULL,
+  `vel_cur` smallint(6) NOT NULL DEFAULT 0,
+  `vel_max` smallint(6) NOT NULL DEFAULT 0,
+  `vel_temp` smallint(6) NOT NULL DEFAULT 0,
+  `def_cur` smallint(6) NOT NULL DEFAULT 0,
+  `def_max` smallint(6) NOT NULL DEFAULT 0,
+  `def_temp` smallint(6) NOT NULL DEFAULT 0,
+  `pv_cur` smallint(6) NOT NULL DEFAULT 0,
+  `pv_max` smallint(6) NOT NULL DEFAULT 0,
+  `pv_temp` smallint(6) NOT NULL DEFAULT 0,
+  `pm_cur` smallint(6) NOT NULL DEFAULT 0,
+  `pm_max` smallint(6) NOT NULL DEFAULT 0,
+  `pm_temp` smallint(6) NOT NULL DEFAULT 0,
+  `rd` smallint(6) NOT NULL DEFAULT 0,
+  `dt_conjuracao` smallint(6) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `arquetipo`
+--
+ALTER TABLE `arquetipo`
+  ADD PRIMARY KEY (`id_arq`),
+  ADD UNIQUE KEY `uq_arquetipo_nome` (`nome`);
+
+--
+-- Índices de tabela `atributo`
+--
+ALTER TABLE `atributo`
+  ADD PRIMARY KEY (`id_atributo`);
 
 --
 -- Índices de tabela `attraca`
@@ -528,6 +724,21 @@ ALTER TABLE `carraca`
   ADD KEY `fk_carraca_car` (`id_car`);
 
 --
+-- Índices de tabela `cmtpersonagem`
+--
+ALTER TABLE `cmtpersonagem`
+  ADD PRIMARY KEY (`id_cmt_perso`),
+  ADD UNIQUE KEY `uq_cmt_perso` (`id_perso`,`id_cmt`),
+  ADD KEY `fk_cmtperso_cmt` (`id_cmt`);
+
+--
+-- Índices de tabela `conhecimento`
+--
+ALTER TABLE `conhecimento`
+  ADD PRIMARY KEY (`id_cmt`),
+  ADD UNIQUE KEY `uq_conhecimento_nome` (`nome`);
+
+--
 -- Índices de tabela `detalhecaracteristica`
 --
 ALTER TABLE `detalhecaracteristica`
@@ -536,11 +747,43 @@ ALTER TABLE `detalhecaracteristica`
   ADD KEY `fk_detcar_hab` (`id_hab`);
 
 --
+-- Índices de tabela `habarquetipo`
+--
+ALTER TABLE `habarquetipo`
+  ADD PRIMARY KEY (`id_hab_arq`),
+  ADD UNIQUE KEY `uq_hab_arq` (`id_hab`,`id_arq`),
+  ADD KEY `fk_habarq_arq` (`id_arq`);
+
+--
 -- Índices de tabela `habilidade`
 --
 ALTER TABLE `habilidade`
   ADD PRIMARY KEY (`id_hab`),
   ADD UNIQUE KEY `uq_habilidade_nome` (`nome`);
+
+--
+-- Índices de tabela `habperonagem`
+--
+ALTER TABLE `habperonagem`
+  ADD PRIMARY KEY (`id_hab_perso`),
+  ADD UNIQUE KEY `uq_hab_perso` (`id_perso`,`id_hab`),
+  ADD KEY `fk_habperso_hab` (`id_hab`);
+
+--
+-- Índices de tabela `nivel`
+--
+ALTER TABLE `nivel`
+  ADD PRIMARY KEY (`id_nv`);
+
+--
+-- Índices de tabela `personagem`
+--
+ALTER TABLE `personagem`
+  ADD PRIMARY KEY (`id_perso`),
+  ADD UNIQUE KEY `uq_perso_status` (`id_status`),
+  ADD UNIQUE KEY `uq_perso_nv` (`id_nv`),
+  ADD UNIQUE KEY `uq_perso_atributo` (`id_atributo`),
+  ADD KEY `fk_perso_raca` (`id_raca`);
 
 --
 -- Índices de tabela `raca`
@@ -557,8 +800,26 @@ ALTER TABLE `requisitohabilidade`
   ADD UNIQUE KEY `uq_req` (`id_hab`,`grupo`,`tipo`,`id_alvo`);
 
 --
+-- Índices de tabela `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`id_status`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `arquetipo`
+--
+ALTER TABLE `arquetipo`
+  MODIFY `id_arq` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de tabela `atributo`
+--
+ALTER TABLE `atributo`
+  MODIFY `id_atributo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `attraca`
@@ -579,10 +840,28 @@ ALTER TABLE `carraca`
   MODIFY `id_car_raca` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
+-- AUTO_INCREMENT de tabela `cmtpersonagem`
+--
+ALTER TABLE `cmtpersonagem`
+  MODIFY `id_cmt_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `conhecimento`
+--
+ALTER TABLE `conhecimento`
+  MODIFY `id_cmt` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
 -- AUTO_INCREMENT de tabela `detalhecaracteristica`
 --
 ALTER TABLE `detalhecaracteristica`
   MODIFY `id_det_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- AUTO_INCREMENT de tabela `habarquetipo`
+--
+ALTER TABLE `habarquetipo`
+  MODIFY `id_hab_arq` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `habilidade`
@@ -591,16 +870,40 @@ ALTER TABLE `habilidade`
   MODIFY `id_hab` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
+-- AUTO_INCREMENT de tabela `habperonagem`
+--
+ALTER TABLE `habperonagem`
+  MODIFY `id_hab_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `nivel`
+--
+ALTER TABLE `nivel`
+  MODIFY `id_nv` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `personagem`
+--
+ALTER TABLE `personagem`
+  MODIFY `id_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `raca`
 --
 ALTER TABLE `raca`
-  MODIFY `id_raca` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_raca` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `requisitohabilidade`
 --
 ALTER TABLE `requisitohabilidade`
   MODIFY `id_req` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `status`
+--
+ALTER TABLE `status`
+  MODIFY `id_status` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -620,11 +923,41 @@ ALTER TABLE `carraca`
   ADD CONSTRAINT `fk_carraca_raca` FOREIGN KEY (`id_raca`) REFERENCES `raca` (`id_raca`) ON DELETE CASCADE;
 
 --
+-- Restrições para tabelas `cmtpersonagem`
+--
+ALTER TABLE `cmtpersonagem`
+  ADD CONSTRAINT `fk_cmtperso_cmt` FOREIGN KEY (`id_cmt`) REFERENCES `conhecimento` (`id_cmt`),
+  ADD CONSTRAINT `fk_cmtperso_perso` FOREIGN KEY (`id_perso`) REFERENCES `personagem` (`id_perso`) ON DELETE CASCADE;
+
+--
 -- Restrições para tabelas `detalhecaracteristica`
 --
 ALTER TABLE `detalhecaracteristica`
   ADD CONSTRAINT `fk_detcar_car` FOREIGN KEY (`id_car`) REFERENCES `caracteristica` (`id_car`),
   ADD CONSTRAINT `fk_detcar_hab` FOREIGN KEY (`id_hab`) REFERENCES `habilidade` (`id_hab`);
+
+--
+-- Restrições para tabelas `habarquetipo`
+--
+ALTER TABLE `habarquetipo`
+  ADD CONSTRAINT `fk_habarq_arq` FOREIGN KEY (`id_arq`) REFERENCES `arquetipo` (`id_arq`),
+  ADD CONSTRAINT `fk_habarq_hab` FOREIGN KEY (`id_hab`) REFERENCES `habilidade` (`id_hab`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `habperonagem`
+--
+ALTER TABLE `habperonagem`
+  ADD CONSTRAINT `fk_habperso_hab` FOREIGN KEY (`id_hab`) REFERENCES `habilidade` (`id_hab`),
+  ADD CONSTRAINT `fk_habperso_perso` FOREIGN KEY (`id_perso`) REFERENCES `personagem` (`id_perso`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `personagem`
+--
+ALTER TABLE `personagem`
+  ADD CONSTRAINT `fk_perso_atributo` FOREIGN KEY (`id_atributo`) REFERENCES `atributo` (`id_atributo`),
+  ADD CONSTRAINT `fk_perso_nv` FOREIGN KEY (`id_nv`) REFERENCES `nivel` (`id_nv`),
+  ADD CONSTRAINT `fk_perso_raca` FOREIGN KEY (`id_raca`) REFERENCES `raca` (`id_raca`),
+  ADD CONSTRAINT `fk_perso_status` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`);
 
 --
 -- Restrições para tabelas `requisitohabilidade`

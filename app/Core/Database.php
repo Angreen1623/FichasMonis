@@ -25,10 +25,15 @@ class Database extends PDO
         }
     }
 
-    public function sql($query, $params = [])
+    public function sql(string $query, $params = [])
     {
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function lastInsertId($name = null): string|false
+    {
+        return self::$pdo->lastInsertId($name);
     }
 }

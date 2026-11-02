@@ -8,3 +8,4 @@ $router->get('/FichasMonis/', 'HomeController@index');
 $router->get('/FichasMonis/racas', 'RacasController@listar');
 $router->get('/FichasMonis/habilidades', 'HabilidadeController@listar');
 $router->get('/FichasMonis/caracteristicas', 'CaracteristicaController@listar');
+$router->post('/FichasMonis/criar-ficha', 'FichaController@criar');
