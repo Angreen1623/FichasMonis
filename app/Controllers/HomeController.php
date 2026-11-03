@@ -6,8 +6,9 @@ class HomeController extends \App\Core\Controller
 {
     public function index(): void
     {
-        $this->view('home/home');
-
+        $data["racas"] = $this->model("raca")->getAll();
+        $data["arquetipos"] = $this->model("arquetipo")->getAll();
+        $this->view('home/home', $data);
     }
 
 }

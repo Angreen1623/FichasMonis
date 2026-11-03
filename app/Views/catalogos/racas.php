@@ -28,6 +28,11 @@
             if (isset($traco_unico)) {
                 echo "<p>Traço único: " . $traco_unico->getNome() . "</p>";
             }
+            echo "<p>Atributos da raça: ";
+            foreach($raca->attraca() as $attraca){
+                echo $attraca->getAtributo(). " | ";
+            }
+            echo "</p>";
             echo "<p>Descrição: " . $raca->getDescricao() . "</p>";
             echo "<hr>";
         }

@@ -28,6 +28,11 @@ class Raca extends Model
         return (new CarRaca())->getByRaca($this->id);
     }
 
+    function attraca(): array
+    {
+        return (new AttRaca())->getByRaca($this->id);
+    }
+
     #endregion
 
     #region Getters and Setters
