@@ -18,7 +18,7 @@ class Atributo extends Model
 
     public function save(): ?Atributo
     {
-        return (new AtributoDAO())->create($this);
+        return (new AtributoDAO())->save($this);
     }
     
     function getById(int $id): array

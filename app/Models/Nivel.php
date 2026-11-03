@@ -13,7 +13,7 @@ class Nivel extends Model
 
     public function save(): ?Nivel
     {
-        return (new NivelDAO())->create($this);
+        return (new NivelDAO())->save($this);
     }
 
     public function getById(int $id): array

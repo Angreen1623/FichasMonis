@@ -24,7 +24,7 @@ class Personagem extends Model
 
     public function save(): ?Personagem
     {
-        return (new PersonagemDAO())->create($this);
+        return (new PersonagemDAO())->save($this);
     }
 
     #endregion

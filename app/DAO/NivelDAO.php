@@ -11,6 +11,13 @@ class NivelDAO extends Database
         parent::__construct();
     }
 
+    ###############################################################################
+
+    public function save(Nivel $nivel): ?Nivel 
+    {
+        return ($nivel->getId() === null) ? $this->insert($nivel) : $this->update($nivel);
+    }
+
     ##################################################################################
     
     public function selectById(int $id): array
@@ -28,7 +35,7 @@ class NivelDAO extends Database
 
     ##################################################################################
 
-    public function create(Nivel $nivel): ?Nivel
+    public function insert(Nivel $nivel): ?Nivel
     {
         $query = "INSERT INTO nivel (nv_aventureiro) VALUES (?)";
 
@@ -38,5 +45,23 @@ class NivelDAO extends Database
         
         return $nivel;
     }
+
+    ###############################################################################
+
+    public function update(Nivel $atributo): ?Nivel
+    {
+        $query = "UPDATE nivel SET nv_aventureiro =  WHERE id_nv = ?)";
+
+        $parms = [
+            $atributo->getNvAventureiro(),
+            $atributo->getId()
+        ];
+
+        $this->sql($query, $parms);
+
+        return $atributo;
+    }
+
+    ###############################################################################
     
 }
