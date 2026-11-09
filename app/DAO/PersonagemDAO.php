@@ -14,8 +14,10 @@ class PersonagemDAO extends Database
     ###############################################################################
 
     public function save(Personagem $personagem): Personagem
-    {
-        return ($personagem->getId() === null) ? $this->insert($personagem) : $this->update($personagem);
+    {(
+        $personagem->getId() === null) ? $this->insert($personagem) : $this->update($personagem);
+        $personagem = $this->selectbyId($personagem->getId());
+        return $personagem;
     }
 
     ###############################################################################
@@ -93,6 +95,7 @@ class PersonagemDAO extends Database
 
         $campos = [
             'nome' => $personagem->getNome(),
+            'id_raca' => $personagem->getIdRaca(),
             'regiao' => $personagem->getRegiao(),
             'idade' => $personagem->getIdade(),
             'objetivo' => $personagem->getObjetivo(),
@@ -104,7 +107,7 @@ class PersonagemDAO extends Database
         $params = [];
 
         foreach ($campos as $campo => $valor) {
-            if ($valor != $row[$campo]) {
+            if ($valor != $row[$campo] && $valor !== null) {
                 $sets[] = "$campo = ?";
                 $params[] = $valor;
             }

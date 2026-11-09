@@ -18,7 +18,9 @@ class ImageMagickService
         $cor = new ImagickPixel($hex);
         $opacidade = new ImagickPixel("rgba(255, 255, 255, 1)");
 
-        $raca_img = $this->getImage("races/".$raca);
+        $this->getImage("races/".$raca) != null 
+        ? $raca_img = $this->getImage("races/".$raca) 
+        : $raca_img = dirname(__DIR__, 2) . "/public/images/dim/races/misterious.png";;
 
         $marca = $this->getMarca($dim);
         $marca_img = [];
@@ -140,9 +142,8 @@ class ImageMagickService
         $raca_id = (int) $raca_id;
 
         $raca = new Raca();
-        $raca->setId($raca_id);
-        
-        $raca_nome = ($raca->getNomeById())->getNome();
+
+        $raca->getById($raca_id) == null ? $raca_nome = "misterious" : $raca_nome = $raca->getById($raca_id)->getNome();
 
         // Remove conteúdo entre parênteses
         $raca_nome = preg_replace('/\([^)]*\)/', '', $raca_nome);
@@ -190,13 +191,11 @@ class ImageMagickService
         return $char;
     }
 
-    private function getImage(string $path_name): string
+    private function getImage(string $path_name): ?string
     {
         $path = dirname(__DIR__, 2) . "/public/images/dim/" . $path_name . ".png";
-        if(!is_file($path)){
-            throw new \RuntimeException(
-                "Imagem não encontrada: $path"
-            );
+        if(!file_exists($path)){
+            return null;
         }
 
         return $path;

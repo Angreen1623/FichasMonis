@@ -18,6 +18,11 @@ class NivelCaracteristica extends Model
         return (new NivelCaracteristicaDAO())->save($this);
     }
 
+    public function delete(): ?bool
+    {
+        return (new NivelCaracteristicaDAO())->delete($this->getId());
+    }
+
     public function getByNivel(int $id_nivel): ?array
     {
         return (new NivelCaracteristicaDAO())->selectByNivel($id_nivel);

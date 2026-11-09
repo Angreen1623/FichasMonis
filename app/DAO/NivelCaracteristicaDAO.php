@@ -63,25 +63,59 @@ class NivelCaracteristicaDAO extends Database
         return $nv;
     }
 
-    ###############################################################################
+    ###########################################################################
 
-    public function update(NivelCaracteristica $nv): NivelCaracteristica
+    public function update(NivelCaracteristica $nivelcaracteristica): ?NivelCaracteristica
     {
-        $query = "UPDATE nivelcaracteristica SET id_nv = ?, id_arq = ?, nv_car = ? WHERE id = ?";
+        $query = "SELECT * FROM nivelcaracteristica WHERE id_nv_car = ?";
+        $rows = $this->sql($query, [$nivelcaracteristica->getId()]);
 
-        $params = [
-            $nv->getIdNv(),
-            $nv->getIdCar(),
-            $nv->getNvCar(),
-            $nv->getId()
+        if (empty($rows)) {
+            return null;
+        }
+
+        $row = $rows[0];
+
+        $campos = [
+            'id_nv' => $nivelcaracteristica->getIdNv(),
+            'id_car' => $nivelcaracteristica->getIdCar(),
+            'nv_car' => $nivelcaracteristica->getNvCar(),
         ];
-        
-        $this->sql($query, $params);
 
-        return $nv;
+        $sets = [];
+        $params = [];
+
+        foreach ($campos as $campo => $valor) {
+            if ($valor != $row[$campo]) {
+                $sets[] = "$campo = ?";
+                $params[] = $valor;
+            }
+        }
+
+        if (!empty($sets)) {
+            $params[] = $nivelcaracteristica->getId();
+
+            $query = "UPDATE nivelcaracteristica SET "
+                . implode(', ', $sets)
+                . " WHERE id_nv_car = ?";
+
+            $this->sql($query, $params);
+        }
+
+        return $nivelcaracteristica;
     }
 
     ###############################################################################
+
+    public function delete(int $id): bool
+    {
+        $query = "DELETE FROM nivelcaracteristica WHERE id_nv_car = ?";
+        $this->sql($query, [$id]);
+        
+        return true;
+    }
+
+    ###########################################################################
 
     
 }

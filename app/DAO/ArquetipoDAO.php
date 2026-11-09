@@ -40,7 +40,7 @@ class ArquetipoDAO extends Database
 
     ###########################################################################
 
-    public function selectById(int $id): Arquetipo
+    public function selectById(int $id): ?Arquetipo
     {
         
         $query = "SELECT * FROM arquetipo WHERE id_arq = ?";

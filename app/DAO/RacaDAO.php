@@ -38,38 +38,19 @@ class RacaDAO extends Database
         return $racas;
     }
 
-    ###########################################################################
-
-    public function selectNomeById($id): Raca
-    {
-        $raca = new Raca();
-        $query = "SELECT nome FROM raca WHERE id_raca = ?";
-        $params = [$id];
-
-        $rows = $this->sql($query, $params);
-
-        if (!isset($rows)) {
-            throw new \Exception("Nenhum nome encontrado.");
-        }
-
-        $nome = $rows[0]["nome"];
-
-        $raca = new Raca();
-
-        $raca->setNome($nome);
-
-        return $raca;
-    }
-
     ###############################################################################
     
-    public function selectbyId(int $id): Raca
+    public function selectbyId(int $id): ?Raca
     {
         $raca = new Raca();
         $query = "SELECT * FROM raca WHERE id_raca = ?";
         $params = [$id];
 
         $rows = $this->sql($query, $params);
+
+        if ($rows == null) {
+            return null;
+        }
 
         $row = $rows[0];
 

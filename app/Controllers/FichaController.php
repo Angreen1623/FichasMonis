@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\NivelArquetipo;
+use App\Models\NivelCaracteristica;
 use App\Models\Personagem;
 use Exception;
 
@@ -118,24 +119,52 @@ class FichaController extends \App\Core\Controller
             $nv->setNvAventureiro($_POST['nv_aventureiro']);
             $nv->save();
 
-            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[0]->getIdArq());
-            $nv_arquetipo->setIdArq($_POST["arquetipo1"]);
-            $nv_arquetipo->setNvArq($_POST["nv_aventureiro1"]);
-            $nv_arquetipo->save();
+            for ($i = 1; $i <= 3; $i++){
+                $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[$i-1]->getIdArq());
+                $nv_arquetipo->setIdArq($_POST["arquetipo". $i]);
+                $nv_arquetipo->setNvArq($_POST["nv_aventureiro". $i]);
+                $nv_arquetipo->save();
+            }
 
-            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[1]->getIdArq());
-            $nv_arquetipo->setIdArq($_POST["arquetipo2"]);
-            $nv_arquetipo->setNvArq($_POST["nv_aventureiro2"]);
-            $nv_arquetipo->save();
+            $nv_caracteristica = new NivelCaracteristica();
 
-            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[2]->getIdArq());
-            $nv_arquetipo->setIdArq($_POST["arquetipo3"]);
-            $nv_arquetipo->setNvArq($_POST["nv_aventureiro3"]);
-            $nv_arquetipo->save();
+            if($personagem->getIdRaca() != $_POST["id_raca"]){
+                $personagem->setIdRaca($_POST["id_raca"]);
+                $personagem->save();
 
-            $cmt_runico = $nv->cmtrunico();
-            $cmt_runico->setNvCmtRunico($_POST['nv_cmt_runico']);
-            $cmt_runico->save();
+                foreach($personagem->nivel()->nivelCaracteristica() as $caracteristica){
+                    $caracteristica->delete();
+                }
+
+                foreach ($personagem->raca()->carraca() as $carraca) {
+                    $nivelCaracteristica = $this->model('NivelCaracteristica');
+                    $nivelCaracteristica->setIdNv($personagem->getIdNv());
+                    $nivelCaracteristica->setIdCar($carraca->caracteristica()->getId());
+                    $nivelCaracteristica->setNvCar(0);
+                    $nivelCaracteristica->save();
+                }
+            }else{
+                $nv_caracteristica = $personagem->nivel()->nivelcaracteristica()[0];
+                $nv_caracteristica->setNvCar($_POST["nv_caracteristica1"]);
+                $nv_caracteristica->save();
+
+                $nv_caracteristica = $personagem->nivel()->nivelcaracteristica()[1];
+                $nv_caracteristica->setNvCar($_POST["nv_caracteristica2"]);
+                $nv_caracteristica->save();
+
+                $nv_caracteristica = $personagem->nivel()->nivelcaracteristica()[2];
+                $nv_caracteristica->setNvCar($_POST["nv_caracteristica3"]);
+                $nv_caracteristica->save();
+
+                $nv_caracteristica = $personagem->nivel()->nivelcaracteristica()[3];
+                $nv_caracteristica->setNvCar($_POST["nv_caracteristica4"]);
+                $nv_caracteristica->save();
+
+                $cmt_runico = $nv->cmtrunico();
+                $cmt_runico->setNvCmtRunico($_POST['nv_cmt_runico']);
+                $cmt_runico->save();
+
+            }
 
             $status = $personagem->status();
 

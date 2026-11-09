@@ -29,7 +29,7 @@ class HomeController extends \App\Core\Controller
     public function criarDim(): void
     {
         $imgSv = $this->service("ImageMagick");
-        $img = $imgSv->createDim("12-". str_pad(rand(0,99999999), 8, '0', STR_PAD_LEFT));
+        $img = $imgSv->createDim(str_pad(rand(0,31), 2, '0', STR_PAD_LEFT) . "-". str_pad(rand(0,99999999), 8, '0', STR_PAD_LEFT));
 
         $this->view('home/dim', ["imagem" => $img]);
     }

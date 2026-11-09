@@ -63,62 +63,26 @@
             PRE <input type="number" name="presenca" placeholder="Presença" value="<?= $perso->atributo()->getPresenca() ?>" required> <br>
             SAG <input type="number" name="sagacidade" placeholder="Sagacidade" value="<?= $perso->atributo()->getSagacidade() ?>" required> <br>
 
-            <select name="arquetipo1" required>
-            <?php
-                if (isset($arquetipos)) {
-                    foreach ($arquetipos as $arquetipo) {
-                        if($arquetipo->getId() == $perso->nivel()->nivelarquetipo()[0]->getIdArq()){
-                            echo "<option value='" . $arquetipo->getId() . "' selected>" . $arquetipo->getNome() . "</option>";
+            <?php for($i = 0; $i<=2; $i++){ ?>
+                <select name="arquetipo<?= $i+1 ?>" required>
+                <?php
+                    if (isset($arquetipos)) {
+                        foreach ($arquetipos as $arquetipo) {
+                            if($arquetipo->getId() == $perso->nivel()->nivelarquetipo()[$i]->getIdArq()){
+                                echo "<option value='" . $arquetipo->getId() . "' selected>" . $arquetipo->getNome() . "</option>";
+                            }
+                            if($arquetipo->getId() != $perso->nivel()->nivelarquetipo()[0]->getIdArq() 
+                            && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[1]->getIdArq() 
+                            && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[2]->getIdArq()){
+                                echo("<option value='" . $arquetipo->getId() . "'>" . $arquetipo->getNome() . "</option>");
+                            }
                         }
-                        if($arquetipo->getId() != $perso->nivel()->nivelarquetipo()[0]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[1]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[2]->getIdArq()){
-                            echo("<option value='" . $arquetipo->getId() . "'>" . $arquetipo->getNome() . "</option>");
-                        }
+                    } else {
+                        echo "<option value=''>Nenhum arquétipo encontrado.</option>";
                     }
-                } else {
-                    echo "<option value=''>Nenhum arquétipo encontrado.</option>";
-                }
-            ?>
-            </select>
-
-            <select name="arquetipo2" required>
-            <?php
-                if (isset($arquetipos)) {
-                    foreach ($arquetipos as $arquetipo) {
-                        if($arquetipo->getId() == $perso->nivel()->nivelarquetipo()[1]->getIdArq()){
-                            echo "<option value='" . $arquetipo->getId() . "' selected>" . $arquetipo->getNome() . "</option>";
-                        }
-                        if($arquetipo->getId() != $perso->nivel()->nivelarquetipo()[0]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[1]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[2]->getIdArq()){
-                            echo("<option value='" . $arquetipo->getId() . "'>" . $arquetipo->getNome() . "</option>");
-                        }
-                    }
-                } else {
-                    echo "<option value=''>Nenhum arquétipo encontrado.</option>";
-                }
-            ?>
-            </select>
-
-            <select name="arquetipo3" required>
-            <?php
-                if (isset($arquetipos)) {
-                    foreach ($arquetipos as $arquetipo) {
-                        if($arquetipo->getId() == $perso->nivel()->nivelarquetipo()[2]->getIdArq()){
-                            echo "<option value='" . $arquetipo->getId() . "' selected>" . $arquetipo->getNome() . "</option>";
-                        }
-                        if($arquetipo->getId() != $perso->nivel()->nivelarquetipo()[0]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[1]->getIdArq() 
-                        && $arquetipo->getId() != $perso->nivel()->nivelarquetipo()[2]->getIdArq()){
-                            echo("<option value='" . $arquetipo->getId() . "'>" . $arquetipo->getNome() . "</option>");
-                        }
-                    }
-                } else {
-                    echo "<option value=''>Nenhum arquétipo encontrado.</option>";
-                }
-            ?>
-            </select>
+                ?>
+                </select>
+            <?php } ?>
             <br>
             </div>
 

@@ -27,8 +27,12 @@ class Database extends PDO
 
     public function sql(string $query, $params = [])
     {
+        $start = microtime(true);
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($params);
+        $time = microtime(true) - $start;
+        error_log("SQL Executado: ". $stmt->queryString. " - Tempo: {$time}s");
+        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
