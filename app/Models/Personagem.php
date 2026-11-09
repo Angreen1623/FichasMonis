@@ -6,19 +6,19 @@ use App\DAO\PersonagemDAO;
 
 class Personagem extends Model
 {
-    private ?int $id;
-    private ?string $nome;
-    private ?string $regiao;
-    private ?string $idade;
-    private ?string $img;
-    private ?string $objetivo;
-    private ?string $destino;
-    private ?string $dim;
-    private ?int $id_status;
-    private ?int $id_raca;
-    private ?int $id_nv;
-    private ?int $id_atributo;
-    private ?int $mons;
+    private ?int $id = null;
+    private ?string $nome = null;
+    private ?string $regiao = null;
+    private ?string $idade = null;
+    private ?string $img = null;
+    private ?string $objetivo = null;
+    private ?string $destino = null;
+    private ?string $dim = null;
+    private ?int $id_status = null;
+    private ?int $id_raca = null;
+    private ?int $id_nv = null;
+    private ?int $id_atributo = null;
+    private ?int $mons = null;
 
     #region CRUD
 
@@ -27,11 +27,16 @@ class Personagem extends Model
         return (new PersonagemDAO())->save($this);
     }
 
+    public function getById(int $id): ?Personagem
+    {
+        return (new PersonagemDAO())->selectbyId($id);
+    }
+
     #endregion
 
     #region relationships
 
-    public function status(): ?array
+    public function status(): ?Status
     {
         return (new Status())->getById($this->id_status);
     }
@@ -41,12 +46,12 @@ class Personagem extends Model
         return (new Raca())->getById($this->id_raca);
     }
 
-    public function atributo(): ?array
+    public function atributo(): ?Atributo
     {
         return (new Atributo())->getById($this->id_atributo);
     }
 
-    public function nivel(): ?array
+    public function nivel(): ?Nivel
     {
         return (new Nivel())->getById($this->id_nv);
     }
@@ -90,12 +95,12 @@ class Personagem extends Model
         $this->regiao = $regiao;
     }
 
-    public function getIdade(): ?int
+    public function getIdade(): ?string
     {
         return $this->idade;
     }
 
-    public function setIdade(?int $idade): void
+    public function setIdade(?string $idade): void
     {
         $this->idade = $idade;
     }

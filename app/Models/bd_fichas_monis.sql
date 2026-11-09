@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/11/2026 às 02:31
+-- Tempo de geração: 06/11/2026 às 20:52
 -- Versão do servidor: 10.11.16-MariaDB
 -- Versão do PHP: 8.5.12
 
@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `bd_fichas_monis`
 --
+
+create database `bd_fichas_monis`;
+use `bd_fichas_monis`;
 
 -- --------------------------------------------------------
 
@@ -72,6 +75,7 @@ CREATE TABLE `atributo` (
   `percepcao` smallint(6) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 -- --------------------------------------------------------
 
 --
@@ -82,7 +86,7 @@ CREATE TABLE `attraca` (
   `id_att_raca` int(10) UNSIGNED NOT NULL,
   `id_raca` int(10) UNSIGNED NOT NULL,
   `atributo` varchar(20) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `attraca`
@@ -162,7 +166,7 @@ CREATE TABLE `caracteristica` (
   `id_car` int(10) UNSIGNED NOT NULL,
   `tipo` varchar(20) NOT NULL,
   `nome` varchar(100) NOT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `caracteristica`
@@ -373,6 +377,18 @@ CREATE TABLE `cmtpersonagem` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `cmtrunico`
+--
+
+CREATE TABLE `cmtrunico` (
+  `id_cmt_runico` int(10) UNSIGNED NOT NULL,
+  `id_nv` int(10) UNSIGNED NOT NULL,
+  `nv_cmt_runico` smallint(5) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `conhecimento`
 --
 
@@ -423,56 +439,6 @@ CREATE TABLE `detalhecaracteristica` (
   `id_car` int(10) UNSIGNED NOT NULL,
   `nv` int(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `detalhecaracteristica`
---
-
-INSERT INTO `detalhecaracteristica` (`id_det_car`, `id_hab`, `id_car`, `nv`) VALUES
-(1, 1, 1, 0),
-(2, 2, 2, 0),
-(3, 3, 3, 0),
-(4, 4, 4, 0),
-(5, 5, 5, 0),
-(6, 6, 6, 0),
-(7, 7, 7, 0),
-(8, 8, 8, 0),
-(9, 9, 9, 0),
-(10, 10, 10, 0),
-(11, 11, 11, 0),
-(12, 12, 12, 0),
-(13, 13, 13, 0),
-(14, 14, 14, 0),
-(15, 15, 15, 0),
-(16, 16, 16, 0),
-(17, 17, 17, 0),
-(18, 18, 18, 0),
-(19, 19, 19, 0),
-(20, 20, 20, 0),
-(21, 21, 21, 0),
-(22, 22, 22, 0),
-(23, 23, 23, 0),
-(24, 24, 24, 0),
-(25, 25, 25, 0),
-(26, 26, 26, 0),
-(27, 27, 27, 0),
-(28, 28, 28, 0),
-(29, 29, 29, 0),
-(30, 30, 30, 0),
-(31, 31, 31, 0),
-(32, 32, 32, 0),
-(33, 33, 33, 0),
-(34, 34, 34, 0),
-(35, 35, 35, 0),
-(36, 36, 36, 0),
-(37, 37, 37, 0),
-(38, 38, 38, 0),
-(39, 39, 39, 0),
-(40, 40, 40, 0),
-(41, 41, 41, 0),
-(42, 42, 42, 0),
-(43, 43, 43, 0),
-(44, 44, 44, 0);
 
 -- --------------------------------------------------------
 
@@ -543,11 +509,11 @@ INSERT INTO `habilidade` (`id_hab`, `nome`, `descricao`, `img`) VALUES
 (37, 'Vivos pela lua', 'Quando estiver lutando sobre a luz da lua ou em uma noite sobre campo aberto, você pode gastar 4 de mana para ter 1 Sucesso automático em todos os testes durante a cena.', NULL),
 (38, 'Tomar Energia', 'Você tem uma capacidade de manipular mana em sua essência mais pura, você pode roubar mana de um alvo, gastando uma ação completa você deve rodar um teste de Espírito+Potência a cada sucesso você rouba 1 de mana do alvo.', NULL),
 (39, 'Dimorfismo (Lanterna)', 'Se o dimorfismo for mais próximo do feminino, o Uila terá uma lanterna na testa que pode ser acessa a qualquer momento gastando 2 de mana, a lanterna não tem objetivo de iluminar, caso esteja ligada você pode gastar uma ação padrão para tentar fascinar um alvo com um teste contra a vontade do alvo.', NULL),
-(40, 'Dimorfismo (Veneno na veia)', 'Se o dimorfismo for mais próximo do masculino, o Uila terá veneno em seu corpo, quando acerta um ataque corpo a corpo pode gastar 1 de mana para rodar um teste de luta contra a Fortitude do alvo, se ele falhar fica envenenado por 2 rodadas', NULL),
+(40, 'Dimorfismo (Veneno na veia)', 'Se o dimorfismo for mais próximo do masculino, o Uila terá veneno em seu corpo, quando acerta um ataque corpo a corpo pode gastar 1 de mana para rodar um teste de luta contra a Fortitude do alvo, se ele falhar fica envenenado por 2 rodadas.', NULL),
 (41, 'Filhos de Wyndat', 'Dos primórdios de Monisland, os viajantes são feitos para explorar as grandes terras, dispensando as necessidades de outros mortais. você não pode se alimentar de comida e não sofre penalidades por sono, sempre que estiver voando você recupera 2 de mana a cada Período do dia, além disso em cenas de descanso se estiver voando recebe beneficio de um prato simples como se estivesse se alimentado.', NULL),
 (42, 'Ascensão (Palácio Mental)', 'Você sabe entrar em um estado de meditação próprio, se estiver em um ambiente em que possa submergir seu corpo em água, pode gastar 3 de mana para conectar informações, você pode realizar perguntas para o profeta conectando informações e ele deve confirmar se está certo ou errado, cada 2 perguntas levam o tempo de 1 ação de descanso.', NULL),
-(43, 'Ascensão (Forja Essêncial)', 'Você sabe modificações de além das estrelas, você recebe uma lista de modificações unicas que você sabe fazer', NULL),
-(44, 'Ascensão (Conexão Colmeia)', 'Você pode gastar 3 de mana para conectar sua mente a de um aliado voluntario por 1 dia. caso o alvo seja outro Trodai o custo é 1', NULL);
+(43, 'Ascensão (Forja Essêncial)', 'Você sabe modificações de além das estrelas, você recebe uma lista de modificações unicas que você sabe fazer.', NULL),
+(44, 'Ascensão (Conexão Colmeia)', 'Você pode gastar 3 de mana para conectar sua mente a de um aliado voluntario por 1 dia. caso o alvo seja outro Trodai o custo é 1.', NULL);
 
 -- --------------------------------------------------------
 
@@ -575,6 +541,32 @@ CREATE TABLE `nivel` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `nivelarquetipo`
+--
+
+CREATE TABLE `nivelarquetipo` (
+  `id_nv_arq` int(10) UNSIGNED NOT NULL,
+  `id_arq` int(10) UNSIGNED NOT NULL,
+  `id_nv` int(10) UNSIGNED NOT NULL,
+  `nv_arq` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `nivelcaracteristica`
+--
+
+CREATE TABLE `nivelcaracteristica` (
+  `id_nv_car` int(10) UNSIGNED NOT NULL,
+  `id_car` int(10) UNSIGNED NOT NULL,
+  `id_nv` int(10) UNSIGNED NOT NULL,
+  `nv_car` int(11) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `personagem`
 --
 
@@ -586,6 +578,7 @@ CREATE TABLE `personagem` (
   `img` varchar(2048) DEFAULT NULL,
   `objetivo` text DEFAULT NULL,
   `destino` text DEFAULT NULL,
+  `dim` varchar(11) NOT NULL,
   `id_status` int(10) UNSIGNED NOT NULL,
   `id_raca` int(10) UNSIGNED NOT NULL,
   `id_nv` int(10) UNSIGNED NOT NULL,
@@ -668,25 +661,21 @@ CREATE TABLE `requisitohabilidade` (
 
 CREATE TABLE `status` (
   `id_status` int(10) UNSIGNED NOT NULL,
-  `vel_cur` smallint(6) NOT NULL DEFAULT 0,
-  `vel_max` smallint(6) NOT NULL DEFAULT 0,
+  `vel_cur` smallint(6) DEFAULT 0,
+  `vel_max` smallint(6) DEFAULT 0,
   `vel_temp` smallint(6) NOT NULL DEFAULT 0,
-  `def_cur` smallint(6) NOT NULL DEFAULT 0,
-  `def_max` smallint(6) NOT NULL DEFAULT 0,
+  `def_cur` smallint(6) DEFAULT 0,
+  `def_max` smallint(6) DEFAULT 0,
   `def_temp` smallint(6) NOT NULL DEFAULT 0,
-  `pv_cur` smallint(6) NOT NULL DEFAULT 0,
-  `pv_max` smallint(6) NOT NULL DEFAULT 0,
+  `pv_cur` smallint(6) DEFAULT 0,
+  `pv_max` smallint(6) DEFAULT 0,
   `pv_temp` smallint(6) NOT NULL DEFAULT 0,
-  `pm_cur` smallint(6) NOT NULL DEFAULT 0,
-  `pm_max` smallint(6) NOT NULL DEFAULT 0,
+  `pm_cur` smallint(6) DEFAULT 0,
+  `pm_max` smallint(6) DEFAULT 0,
   `pm_temp` smallint(6) NOT NULL DEFAULT 0,
   `rd` smallint(6) NOT NULL DEFAULT 0,
-  `dt_conjuracao` smallint(6) NOT NULL DEFAULT 0
+  `dt_conjuracao` smallint(6) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Índices para tabelas despejadas
---
 
 --
 -- Índices de tabela `arquetipo`
@@ -730,6 +719,13 @@ ALTER TABLE `cmtpersonagem`
   ADD PRIMARY KEY (`id_cmt_perso`),
   ADD UNIQUE KEY `uq_cmt_perso` (`id_perso`,`id_cmt`),
   ADD KEY `fk_cmtperso_cmt` (`id_cmt`);
+
+--
+-- Índices de tabela `cmtrunico`
+--
+ALTER TABLE `cmtrunico`
+  ADD PRIMARY KEY (`id_cmt_runico`),
+  ADD KEY `fk_cmtrunico_nv` (`id_nv`);
 
 --
 -- Índices de tabela `conhecimento`
@@ -776,6 +772,21 @@ ALTER TABLE `nivel`
   ADD PRIMARY KEY (`id_nv`);
 
 --
+-- Índices de tabela `nivelarquetipo`
+--
+ALTER TABLE `nivelarquetipo`
+  ADD PRIMARY KEY (`id_nv_arq`),
+  ADD KEY `fk_nvarq_nv` (`id_nv`);
+
+--
+-- Índices de tabela `nivelcaracteristica`
+--
+ALTER TABLE `nivelcaracteristica`
+  ADD PRIMARY KEY (`id_nv_car`),
+  ADD UNIQUE KEY `uq_nv_car` (`id_car`,`id_nv`),
+  ADD KEY `fk_nvcar_nv` (`id_nv`);
+
+--
 -- Índices de tabela `personagem`
 --
 ALTER TABLE `personagem`
@@ -819,19 +830,19 @@ ALTER TABLE `arquetipo`
 -- AUTO_INCREMENT de tabela `atributo`
 --
 ALTER TABLE `atributo`
-  MODIFY `id_atributo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_atributo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT de tabela `attraca`
 --
 ALTER TABLE `attraca`
-  MODIFY `id_att_raca` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_att_raca` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de tabela `caracteristica`
 --
 ALTER TABLE `caracteristica`
-  MODIFY `id_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de tabela `carraca`
@@ -844,6 +855,12 @@ ALTER TABLE `carraca`
 --
 ALTER TABLE `cmtpersonagem`
   MODIFY `id_cmt_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `cmtrunico`
+--
+ALTER TABLE `cmtrunico`
+  MODIFY `id_cmt_runico` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `conhecimento`
@@ -879,13 +896,25 @@ ALTER TABLE `habperonagem`
 -- AUTO_INCREMENT de tabela `nivel`
 --
 ALTER TABLE `nivel`
-  MODIFY `id_nv` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_nv` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+--
+-- AUTO_INCREMENT de tabela `nivelarquetipo`
+--
+ALTER TABLE `nivelarquetipo`
+  MODIFY `id_nv_arq` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+--
+-- AUTO_INCREMENT de tabela `nivelcaracteristica`
+--
+ALTER TABLE `nivelcaracteristica`
+  MODIFY `id_nv_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT de tabela `personagem`
 --
 ALTER TABLE `personagem`
-  MODIFY `id_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
@@ -903,7 +932,7 @@ ALTER TABLE `requisitohabilidade`
 -- AUTO_INCREMENT de tabela `status`
 --
 ALTER TABLE `status`
-  MODIFY `id_status` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_status` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- Restrições para tabelas despejadas
@@ -930,6 +959,12 @@ ALTER TABLE `cmtpersonagem`
   ADD CONSTRAINT `fk_cmtperso_perso` FOREIGN KEY (`id_perso`) REFERENCES `personagem` (`id_perso`) ON DELETE CASCADE;
 
 --
+-- Restrições para tabelas `cmtrunico`
+--
+ALTER TABLE `cmtrunico`
+  ADD CONSTRAINT `fk_cmtrunico_nv` FOREIGN KEY (`id_nv`) REFERENCES `nivel` (`id_nv`) ON DELETE CASCADE;
+
+--
 -- Restrições para tabelas `detalhecaracteristica`
 --
 ALTER TABLE `detalhecaracteristica`
@@ -949,6 +984,20 @@ ALTER TABLE `habarquetipo`
 ALTER TABLE `habperonagem`
   ADD CONSTRAINT `fk_habperso_hab` FOREIGN KEY (`id_hab`) REFERENCES `habilidade` (`id_hab`),
   ADD CONSTRAINT `fk_habperso_perso` FOREIGN KEY (`id_perso`) REFERENCES `personagem` (`id_perso`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `nivelarquetipo`
+--
+ALTER TABLE `nivelarquetipo`
+  ADD CONSTRAINT `fk_nvarq_arq` FOREIGN KEY (`id_arq`) REFERENCES `arquetipo` (`id_arq`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_nvarq_nv` FOREIGN KEY (`id_nv`) REFERENCES `nivel` (`id_nv`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `nivelcaracteristica`
+--
+ALTER TABLE `nivelcaracteristica`
+  ADD CONSTRAINT `fk_nvcar_car` FOREIGN KEY (`id_car`) REFERENCES `caracteristica` (`id_car`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_nvcar_nv` FOREIGN KEY (`id_nv`) REFERENCES `nivel` (`id_nv`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `personagem`

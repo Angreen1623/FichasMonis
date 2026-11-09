@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\TransactionManager;
+
 abstract class Controller
 {
     protected function view(
@@ -12,7 +14,7 @@ abstract class Controller
 
         if (!is_file($file)) {
             throw new \RuntimeException(
-                "View ".$view." não encontrada: $view"
+                "View não encontrada: $view"
             );
         }
 
@@ -73,5 +75,20 @@ abstract class Controller
         }
 
         return new $serviceClass();
+    }
+
+    protected function beginTransaction(): void 
+    {
+        (new TransactionManager)->begin();
+    }
+
+    protected function rollbackTransaction(): void
+    {
+        (new TransactionManager)->rollback();
+    }
+
+    protected function commitTransaction(): void
+    {
+        (new TransactionManager)->commit();
     }
 }

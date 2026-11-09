@@ -6,13 +6,13 @@ use App\DAO\AtributoDAO;
 
 class Atributo extends Model
 {
-    private ?int $id;
-    private ?int $potencia;
-    private ?int $agilidade;
-    private ?int $sagacidade;
-    private ?int $presenca;
-    private ?int $espirito;
-    private ?int $percepcao;
+    private ?int $id = null;
+    private ?int $potencia = null;
+    private ?int $agilidade = null;
+    private ?int $sagacidade = null;
+    private ?int $presenca = null;
+    private ?int $espirito = null;
+    private ?int $percepcao = null;
 
     #region CRUD
 
@@ -21,7 +21,7 @@ class Atributo extends Model
         return (new AtributoDAO())->save($this);
     }
     
-    function getById(int $id): array
+    function getById(int $id): ?Atributo
     {
         return (new AtributoDAO())->selectById($id);
     }

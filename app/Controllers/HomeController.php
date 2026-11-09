@@ -6,9 +6,32 @@ class HomeController extends \App\Core\Controller
 {
     public function index(): void
     {
-        $data["racas"] = $this->model("raca")->getAll();
-        $data["arquetipos"] = $this->model("arquetipo")->getAll();
-        $this->view('home/home', $data);
+        $this->view('home/home');
+    }
+
+    public function cadastrarFicha(): void
+    {
+        $racas = $this->model("raca")->getAll();
+        $arquetipos = $this->model("arquetipo")->getAll();
+        $this->view('home/criar_ficha', ["racas" => $racas, "arquetipos" => $arquetipos]);
+    }
+
+    public function editarFicha($id): void
+    {
+        $personagem = $this->model("personagem")->getById($id);
+        $racas = $this->model("raca")->getAll();
+        $arquetipos = $this->model("arquetipo")->getAll();
+        $dim = $this->service("ImageMagick")->createDim($personagem->getDim());
+
+        $this->view('home/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos, "dim" => $dim]);
+    }
+
+    public function criarDim(): void
+    {
+        $imgSv = $this->service("ImageMagick");
+        $img = $imgSv->createDim("12-". str_pad(rand(0,99999999), 8, '0', STR_PAD_LEFT));
+
+        $this->view('home/dim', ["imagem" => $img]);
     }
 
 }

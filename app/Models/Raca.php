@@ -19,6 +19,16 @@ class Raca extends Model
         return (new RacaDAO())->select();
     }
 
+    function getNomeById(): Raca
+    {
+        return (new RacaDAO())->selectNomeById($this->id);
+    }
+
+    function getById($id_raca): Raca
+    {
+        return (new RacaDAO())->selectById($id_raca);
+    }
+
     #endregion
 
     #region relationships

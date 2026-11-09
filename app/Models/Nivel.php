@@ -6,7 +6,7 @@ use App\DAO\NivelDAO;
 
 class Nivel extends Model
 {
-    private ?int $id;
+    private ?int $id = null;
     private ?int $nv_aventureiro = 3;
     
     #region CRUD
@@ -16,7 +16,7 @@ class Nivel extends Model
         return (new NivelDAO())->save($this);
     }
 
-    public function getById(int $id): array
+    public function getById(int $id): ?Nivel
     {
         return (new NivelDAO())->selectById($id);
     }
@@ -25,7 +25,20 @@ class Nivel extends Model
 
     #region relationships
 
-    
+    public function nivelarquetipo(): array
+    {
+        return (new NivelArquetipo())->getByNivel($this->id);
+    }
+
+    public function nivelcaracteristica(): ?array 
+    {
+        return (new NivelCaracteristica())->getByNivel($this->id);
+    }
+
+    public function cmtrunico(): ?CmtRunico 
+    {
+        return (new CmtRunico())->getByNivel($this->id);
+    }
 
     #endregion
 

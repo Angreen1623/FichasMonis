@@ -36,4 +36,9 @@ class Database extends PDO
     {
         return self::$pdo->lastInsertId($name);
     }
+
+    public function getConnection(): PDO
+    {
+        return self::$pdo;
+    }
 }

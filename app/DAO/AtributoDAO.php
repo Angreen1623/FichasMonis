@@ -20,17 +20,29 @@ class AtributoDAO extends Database
 
     ###############################################################################
     
-    public function selectById(int $id): array
+    public function selectById(int $id): Atributo
     {
         $query = "SELECT * FROM Atributo WHERE id_atributo = ?";
 
-        $row = $this->sql($query, [$id]);
+        $rows = $this->sql($query, [$id]);
 
-        if (!$row) {
+        if (!$rows) {
             throw new \Exception("Atributo não encontrado.");
         }
 
-        return $row;
+        $row = $rows[0];
+
+        $atributo = new Atributo();
+
+        $atributo->setId($id);
+        $atributo->setPotencia($row["potencia"]);
+        $atributo->setAgilidade($row["agilidade"]);
+        $atributo->setSagacidade($row["sagacidade"]);
+        $atributo->setPresenca($row["presenca"]);
+        $atributo->setEspirito($row["espirito"]);
+        $atributo->setPercepcao($row["percepcao"]);
+
+        return $atributo;
     }
 
     ###############################################################################
@@ -59,20 +71,44 @@ class AtributoDAO extends Database
 
     public function update(Atributo $atributo): ?Atributo
     {
-        $query = "UPDATE atributo SET agilidade = ?, espirito = ?, percepcao = ?, potencia = ?, presenca = ?, sagacidade = ? WHERE id_atributo = ?)";
+        $query = "SELECT * FROM atributo WHERE id_atributo = ?";
+        $rows = $this->sql($query, [$atributo->getId()]);
 
-        $parms = [
-            $atributo->getAgilidade(),
-            $atributo->getEspirito(),
-            $atributo->getPercepcao(),
-            $atributo->getPotencia(),
-            $atributo->getPresenca(),
-            $atributo->getSagacidade(),
-            $atributo->getId()
+        if (empty($rows)) {
+            return null;
+        }
+
+        $row = $rows[0];
+
+        $campos = [
+            'agilidade' => $atributo->getAgilidade(),
+            'espirito' => $atributo->getEspirito(),
+            'percepcao' => $atributo->getPercepcao(),
+            'potencia' => $atributo->getPotencia(),
+            'presenca' => $atributo->getPresenca(),
+            'sagacidade' => $atributo->getSagacidade()
         ];
 
-        $this->sql($query, $parms);
+        $sets = [];
+        $params = [];
 
+        foreach ($campos as $campo => $valor) {
+            if ($valor != $row[$campo]) {
+                $sets[] = "$campo = ?";
+                $params[] = $valor;
+            }
+        }
+
+        if (!empty($sets)) {
+            $params[] = $atributo->getId();
+
+            $query = "UPDATE atributo SET "
+                . implode(', ', $sets)
+                . " WHERE id_atributo = ?";
+
+            $this->sql($query, $params);
+        }
+        
         return $atributo;
     }
 

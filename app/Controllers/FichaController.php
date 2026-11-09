@@ -2,31 +2,171 @@
 
 namespace App\Controllers;
 
+use App\Models\NivelArquetipo;
+use App\Models\Personagem;
+use Exception;
+
 class FichaController extends \App\Core\Controller
 {
     public function criar(): void
     {
-        var_dump($_POST);
-        $personagem = $this->model('Personagem');
-        $personagem->setNome($_POST['nome']);
-        $personagem->setIdRaca($_POST['id_raca']);
-        $personagem->setIdNv($this->model('Nivel')->save()->getId());
-        $personagem->setIdStatus($this->model('Status')->save()->getId());
-        $personagem->setDim($this->gerarDim($_POST['nome'], $_POST['id_raca']));
+        try{
+            $this->beginTransaction();
 
-        $atributos = $this->model('Atributo');
-        $atributos->setPotencia($_POST['potencia']);
-        $atributos->setAgilidade($_POST['agilidade']);
-        $atributos->setSagacidade($_POST['sagacidade']);
-        $atributos->setPresenca($_POST['presenca']);
-        $atributos->setEspirito($_POST['espirito']);
-        $atributos->setPercepcao($_POST['percepcao']);
-        $atributos->save();
-        $personagem->setIdAtributo($atributos->getId());
+            $personagem = $this->model('Personagem');
+            $personagem->setNome($_POST['nome']);
+            $personagem->setIdRaca($_POST['id_raca']);
 
-        $personagem->save();
+            $id_nv = $this->model('Nivel')->save()->getId();
+
+            $personagem->setIdNv($id_nv);
+
+            for ($i=1; $i<=3; $i++) { 
+                $nivelArquetipo = $this->model('NivelArquetipo');
+                $nivelArquetipo->setIdNv($id_nv);
+                $nivelArquetipo->setIdArq($_POST['arquetipo' . $i]);
+                $nivelArquetipo->setNvArq(1);
+                $nivelArquetipo->save();
+            }
+
+            $status = $this->model('Status')->save();
+
+            $personagem->setIdStatus($status->getId());
+            $personagem->setDim($this->gerarDim($_POST['nome'], $_POST['id_raca']));
+
+            $atributos = $this->model('Atributo');
+            $atributos->setPotencia($_POST['potencia']);
+            $atributos->setAgilidade($_POST['agilidade']);
+            $atributos->setSagacidade($_POST['sagacidade']);
+            $atributos->setPresenca($_POST['presenca']);
+            $atributos->setEspirito($_POST['espirito']);
+            $atributos->setPercepcao($_POST['percepcao']);
+            $atributos->save();
+            $personagem->setIdAtributo($atributos->getId());
+
+            $personagem->save();
+
+            foreach ($personagem->raca()->carraca() as $carraca) {
+                $nivelCaracteristica = $this->model('NivelCaracteristica');
+                $nivelCaracteristica->setIdNv($id_nv);
+                $nivelCaracteristica->setIdCar($carraca->caracteristica()->getId());
+                $nivelCaracteristica->setNvCar(0);
+                $nivelCaracteristica->save();
+            }
+
+            $cmtRunico = $this->model("CmtRunico");
+            $cmtRunico->setIdNv($id_nv);
+            $cmtRunico->setNvCmtRunico(0);
+            $cmtRunico->save();
+
+            $calculadora = $this->service("CalcularStatus");
+
+            $status->setVelCur($personagem->raca()->getVelocidade());
+            $status->setVelMax($personagem->raca()->getVelocidade());
+
+            $status->setDefCur($calculadora->calcularDef($personagem));
+            $status->setDefMax($calculadora->calcularDef($personagem));
+
+            $status->setPvCur($calculadora->calcularPv($personagem));
+            $status->setPvMax($calculadora->calcularPv($personagem));
+
+            $status->setPmCur($calculadora->calcularPm($personagem));
+            $status->setPmMax($calculadora->calcularPm($personagem));
+
+            $status->save();
+
+            $this->commitTransaction();
+            
+        } catch (Exception $e) {
+            $this->rollbackTransaction();
+            throw $e;
+        }
+
+        $this->redirect("editar-ficha/". $personagem->getId());
 
     }
+
+    public function updateFicha(): void
+    {
+        try{
+            $this->beginTransaction();
+
+            $personagem = $this->model("Personagem");
+
+            $personagem->setId($_POST['id_perso']);
+            $personagem->setNome($_POST['nome']);
+            $personagem->setRegiao($_POST['regiao']);
+            $personagem->setIdade($_POST['idade']);
+            $personagem->setObjetivo($_POST['objetivo']);
+            $personagem->setDestino($_POST['destino']);
+            $personagem->setMons($_POST['mons']);
+            $personagem->save();
+
+            $personagem = $personagem->getById($personagem->getId());
+
+            $atributos = $personagem->atributo();
+
+            $atributos->setAgilidade($_POST['agilidade']);
+            $atributos->setEspirito($_POST['espirito']);
+            $atributos->setPercepcao($_POST['percepcao']);
+            $atributos->setPotencia($_POST['potencia']);
+            $atributos->setPresenca($_POST['presenca']);
+            $atributos->setSagacidade($_POST['sagacidade']);
+            $atributos->save();
+
+            $nv = $personagem->nivel();
+            $nv->setNvAventureiro($_POST['nv_aventureiro']);
+            $nv->save();
+
+            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[0]->getIdArq());
+            $nv_arquetipo->setIdArq($_POST["arquetipo1"]);
+            $nv_arquetipo->setNvArq($_POST["nv_aventureiro1"]);
+            $nv_arquetipo->save();
+
+            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[1]->getIdArq());
+            $nv_arquetipo->setIdArq($_POST["arquetipo2"]);
+            $nv_arquetipo->setNvArq($_POST["nv_aventureiro2"]);
+            $nv_arquetipo->save();
+
+            $nv_arquetipo = (new NivelArquetipo)->getByNivel_Arquetipo($personagem->getIdNv(), $personagem->nivel()->nivelarquetipo()[2]->getIdArq());
+            $nv_arquetipo->setIdArq($_POST["arquetipo3"]);
+            $nv_arquetipo->setNvArq($_POST["nv_aventureiro3"]);
+            $nv_arquetipo->save();
+
+            $cmt_runico = $nv->cmtrunico();
+            $cmt_runico->setNvCmtRunico($_POST['nv_cmt_runico']);
+            $cmt_runico->save();
+
+            $status = $personagem->status();
+
+            $status->setVelCur($_POST["vel_cur"]);
+            $status->setVelMax($_POST["vel_max"]);
+            $status->setVelTemp($_POST["vel_temp"]);
+            $status->setDefCur($_POST["def_cur"]);
+            $status->setDefMax($_POST["def_max"]);
+            $status->setDefTemp($_POST["def_temp"]);
+            $status->setPvCur($_POST["pv_cur"]);
+            $status->setPvMax($_POST["pv_max"]);
+            $status->setPvTemp($_POST["pv_temp"]);
+            $status->setPmCur($_POST["pm_cur"]);
+            $status->setPmMax($_POST["pm_max"]);
+            $status->setPmTemp($_POST["pm_temp"]);
+            $status->setRd($_POST["rd"]);
+            $status->save();
+
+
+            $this->commitTransaction();
+            
+        } catch (Exception $e) {
+            $this->rollbackTransaction();
+            throw $e;
+        }
+
+        $this->redirect("editar-ficha/". $personagem->getId());
+
+    }
+
+    #######################################################################################    
 
     private function gerarDim(string $nome_marca, string $raca): string
     {

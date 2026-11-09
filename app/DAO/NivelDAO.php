@@ -20,17 +20,24 @@ class NivelDAO extends Database
 
     ##################################################################################
     
-    public function selectById(int $id): array
+    public function selectById(int $id): Nivel
     {
-        $query = "SELECT * FROM nivel WHERE id = ?";
+        $query = "SELECT * FROM nivel WHERE id_nv = ?";
 
-        $row = $this->sql($query, [$id]);
+        $rows = $this->sql($query, [$id]);
 
-        if (!$row) {
+        if (!$rows) {
             throw new \Exception("Nível não encontrado.");
         }
 
-        return $row;
+        $row = $rows[0];
+
+        $nv = new Nivel;
+
+        $nv->setId($row["id_nv"]);
+        $nv->setNvAventureiro($row["nv_aventureiro"]);
+
+        return $nv;
     }
 
     ##################################################################################
@@ -48,18 +55,42 @@ class NivelDAO extends Database
 
     ###############################################################################
 
-    public function update(Nivel $atributo): ?Nivel
+    public function update(Nivel $nivel): ?Nivel
     {
-        $query = "UPDATE nivel SET nv_aventureiro =  WHERE id_nv = ?)";
+        $query = "SELECT * FROM nivel WHERE id_nv = ?";
+        $rows = $this->sql($query, [$nivel->getId()]);
 
-        $parms = [
-            $atributo->getNvAventureiro(),
-            $atributo->getId()
+        if (empty($rows)) {
+            return null;
+        }
+
+        $row = $rows[0];
+
+        $campos = [
+            'nv_aventureiro' => $nivel->getNvAventureiro(),
         ];
 
-        $this->sql($query, $parms);
+        $sets = [];
+        $params = [];
 
-        return $atributo;
+        foreach ($campos as $campo => $valor) {
+            if ($valor != $row[$campo]) {
+                $sets[] = "$campo = ?";
+                $params[] = $valor;
+            }
+        }
+
+        if (!empty($sets)) {
+            $params[] = $nivel->getId();
+
+            $query = "UPDATE nivel SET "
+                . implode(', ', $sets)
+                . " WHERE id_nv = ?";
+
+            $this->sql($query, $params);
+        }
+
+        return $nivel;
     }
 
     ###############################################################################

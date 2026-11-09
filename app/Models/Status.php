@@ -6,33 +6,32 @@ use App\DAO\StatusDAO;
 
 class Status extends Model
 {
-    private ?int $id;
-    private ?int $id_status;
-    private ?int $vel_cur;
-    private ?int $vel_max;
-    private ?int $vel_temp;
-    private ?int $def_cur;
-    private ?int $def_max;
-    private ?int $def_temp;
-    private ?int $pv_cur;
-    private ?int $pv_max;
-    private ?int $pv_temp;
-    private ?int $pm_cur;
-    private ?int $pm_max;
-    private ?int $pm_temp;
-    private ?int $rd;
-    private ?int $dt_conjuracao;
+    private ?int $id = null;
+    private ?int $vel_cur = 0;
+    private ?int $vel_max = 0;
+    private ?int $vel_temp = 0;
+    private ?int $def_cur = 0;
+    private ?int $def_max = 0;
+    private ?int $def_temp = 0;
+    private ?int $pv_cur = 0;
+    private ?int $pv_max = 0;
+    private ?int $pv_temp = 0;
+    private ?int $pm_cur = 0;
+    private ?int $pm_max = 0;
+    private ?int $pm_temp = 0;
+    private ?int $rd = 0;
+    private ?int $dt_conjuracao = 0;
 
     #region CRUD
 
-    public function getById(int $id): array
+    public function getById(int $id): Status
     {
         return (new StatusDAO())->selectById($id);
     }
 
     public function save(): ?Status
     {
-        return (new StatusDAO())->create($this);
+        return (new StatusDAO())->save($this);
     }    
 
     #endregion
@@ -55,132 +54,122 @@ class Status extends Model
         $this->id = $id;
     }
 
-    public function getId_status(): ?int
-    {
-        return $this->id_status;
-    }
-
-    public function setId_status(?int $id_status): void
-    {
-        $this->id_status = $id_status;
-    }
-
-    public function getVel_cur(): ?int
+    public function getVelCur(): ?int
     {
         return $this->vel_cur;
     }
 
-    public function setVel_cur(?int $vel_cur): void
+    public function setVelCur(?int $vel_cur): void
     {
         $this->vel_cur = $vel_cur;
     }
 
-    public function getVel_max(): ?int
+    public function getVelMax(): ?int
     {
         return $this->vel_max;
     }
 
-    public function setVel_max(?int $vel_max): void
+    public function setVelMax(?int $vel_max): void
     {
         $this->vel_max = $vel_max;
     }
 
-    public function getVel_temp(): ?int
+    public function getVelTemp(): ?int
     {
         return $this->vel_temp;
     }
 
-    public function setVel_temp(?int $vel_temp): void
+    public function setVelTemp(?int $vel_temp): void
     {
         $this->vel_temp = $vel_temp;
     }
 
-    public function getDef_cur(): ?int
+    public function getDefCur(): ?int
     {
         return $this->def_cur;
     }
 
-    public function setDef_cur(?int $def_cur): void
+    public function setDefCur(?int $def_cur): void
     {
         $this->def_cur = $def_cur;
     }
 
-    public function getDef_max(): ?int
+    public function getDefMax(): ?int
     {
         return $this->def_max;
     }
 
-    public function setDef_max(?int $def_max): void
+    public function setDefMax(?int $def_max): void
     {
         $this->def_max = $def_max;
     }
 
-    public function getDef_temp(): ?int
+    public function getDefTemp(): ?int
     {
         return $this->def_temp;
     }
 
-    public function setDef_temp(?int $def_temp): void
+    public function setDefTemp(?int $def_temp): void
     {
         $this->def_temp = $def_temp;
     }
 
-    public function getPv_cur(): ?int
+    public function getPvCur(): ?int
     {
         return $this->pv_cur;
     }
 
-    public function setPv_cur(?int $pv_cur): void
+    public function setPvCur(?int $pv_cur): void
     {
         $this->pv_cur = $pv_cur;
     }
 
-    public function getPv_max(): ?int
+    public function getPvMax(): ?int
     {
         return $this->pv_max;
     }
 
-    public function setPv_max(?int $pv_max): void
+    public function setPvMax(?int $pv_max): void
     {
         $this->pv_max = $pv_max;
     }
 
-    public function getPv_temp(): ?int
+    public function getPvTemp(): ?int
     {
         return $this->pv_temp;
     }
 
-    public function setPv_temp(?int $pv_temp): void
+    public function setPvTemp(?int $pv_temp): void
     {
         $this->pv_temp = $pv_temp;
     }
 
-    public function getPm_cur(): ?int
+    public function getPmCur(): ?int
     {
         return $this->pm_cur;
     }
 
-    public function setPm_cur(?int $pm_cur): void
+    public function setPmCur(?int $pm_cur): void
     {
         $this->pm_cur = $pm_cur;
     }
 
-    public function getPm_max(): ?int
+    public function getPmMax(): ?int
     {
         return $this->pm_max;
     }
 
-    public function setPm_max(?int $pm_max): void
+    public function setPmMax(?int $pm_max): void
     {
         $this->pm_max = $pm_max;
     }
 
-    public function getPm_temp(): ?int
+    public function getPmTemp(): ?int
     {
         return $this->pm_temp;
     }
 
-    public function setPm_temp(?int $pm_temp): void
+    public function setPmTemp(?int $pm_temp): void
     {
         $this->pm_temp = $pm_temp;
     }
@@ -195,12 +184,12 @@ class Status extends Model
         $this->rd = $rd;
     }
 
-    public function getDt_conjuracao(): ?int
+    public function getDtConjuracao(): ?int
     {
         return $this->dt_conjuracao;
     }
 
-    public function setDt_conjuracao(?int $dt_conjuracao): void
+    public function setDtConjuracao(?int $dt_conjuracao): void
     {
         $this->dt_conjuracao = $dt_conjuracao;
     }

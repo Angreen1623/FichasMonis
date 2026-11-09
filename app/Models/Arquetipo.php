@@ -14,9 +14,14 @@ class Arquetipo extends Model
 
     #region CRUD
 
-    function getAll(): array
+    public function getAll(): array
     {
         return (new ArquetipoDAO())->select();
+    }
+
+    public function getById(int $id_arq): Arquetipo
+    {
+        return (new ArquetipoDAO())->selectById($id_arq);
     }
 
     #endregion
