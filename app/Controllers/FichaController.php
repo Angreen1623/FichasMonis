@@ -76,6 +76,17 @@ class FichaController extends \App\Core\Controller
 
             $status->save();
 
+            $conhecimento = $this->model("Conhecimento");
+            $cmts = $conhecimento->getAll();
+
+            foreach($cmts as $cmt){
+                $cmt_personagem = $this->model("CmtPersonagem");
+                $cmt_personagem->setIdCmt($cmt->getId());
+                $cmt_personagem->setIdPerso($personagem->getId());
+                $cmt_personagem->setValor(0);
+                $cmt_personagem->save();
+            }
+
             $this->commitTransaction();
             
         } catch (Exception $e) {
@@ -182,7 +193,6 @@ class FichaController extends \App\Core\Controller
             $status->setPmTemp($_POST["pm_temp"]);
             $status->setRd($_POST["rd"]);
             $status->save();
-
 
             $this->commitTransaction();
             

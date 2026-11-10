@@ -61,6 +61,11 @@ class Personagem extends Model
         return (new ItemInventario())->getByPersonagem($this->id);
     }
 
+    public function cmtpersonagem(): ?array
+    {
+        return (new CmtPersonagem())->getByPerso($this->id);
+    }
+
     #endregion
 
     #region Getters and Setters

@@ -87,15 +87,27 @@
             </div>
 
             <div>
-            Nivel de Aventureiro <input type="number" name="nv_aventureiro" value="<?=  $perso->nivel()->getNvAventureiro(); ?>" required> <br>
-            Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[0]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro1" value="<?= $perso->nivel()->nivelarquetipo()[0]->getNvArq() ?>" required> <br>
-            Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[1]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro2" value="<?= $perso->nivel()->nivelarquetipo()[1]->getNvArq() ?>" required> <br>
-            Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[2]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro3" value="<?= $perso->nivel()->nivelarquetipo()[2]->getNvArq() ?>" required> <br>
-            Nivel do conhecimento runico <input type="number" name="nv_cmt_runico" value="<?= ($perso->nivel()->cmtrunico() ? $perso->nivel()->cmtrunico()->getNvCmtRunico() : '0') ?>" required> <br>
-            Nivel <?= ($perso->nivel()->nivelcaracteristica()[0]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[0]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica1" value="<?= $perso->nivel()->nivelcaracteristica()[0]->getNvCar() ?>" required> <br>
-            Nivel <?= ($perso->nivel()->nivelcaracteristica()[1]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[1]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica2" value="<?= $perso->nivel()->nivelcaracteristica()[1]->getNvCar() ?>" required> <br>
-            Nivel <?= ($perso->nivel()->nivelcaracteristica()[2]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[2]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica3" value="<?= $perso->nivel()->nivelcaracteristica()[2]->getNvCar() ?>" required> <br>
-            Nivel <?= ($perso->nivel()->nivelcaracteristica()[3]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[3]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica4" value="<?= $perso->nivel()->nivelcaracteristica()[3]->getNvCar() ?>" required> <br>
+                Nivel de Aventureiro <input type="number" name="nv_aventureiro" value="<?=  $perso->nivel()->getNvAventureiro(); ?>" required> <br>
+                Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[0]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro1" value="<?= $perso->nivel()->nivelarquetipo()[0]->getNvArq() ?>" required> <br>
+                Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[1]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro2" value="<?= $perso->nivel()->nivelarquetipo()[1]->getNvArq() ?>" required> <br>
+                Nivel do arquetipo <?= ($perso->nivel()->nivelarquetipo()[2]->arquetipo()->getNome()) ?>  <input type="number" name="nv_aventureiro3" value="<?= $perso->nivel()->nivelarquetipo()[2]->getNvArq() ?>" required> <br>
+                Nivel do conhecimento runico <input type="number" name="nv_cmt_runico" value="<?= ($perso->nivel()->cmtrunico() ? $perso->nivel()->cmtrunico()->getNvCmtRunico() : '0') ?>" required> <br>
+                Nivel <?= ($perso->nivel()->nivelcaracteristica()[0]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[0]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica1" value="<?= $perso->nivel()->nivelcaracteristica()[0]->getNvCar() ?>" required> <br>
+                Nivel <?= ($perso->nivel()->nivelcaracteristica()[1]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[1]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica2" value="<?= $perso->nivel()->nivelcaracteristica()[1]->getNvCar() ?>" required> <br>
+                Nivel <?= ($perso->nivel()->nivelcaracteristica()[2]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[2]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica3" value="<?= $perso->nivel()->nivelcaracteristica()[2]->getNvCar() ?>" required> <br>
+                Nivel <?= ($perso->nivel()->nivelcaracteristica()[3]->caracteristica()->getTipo() == "traco_unico" ? "do traço unico:" : "da característica:");?> <?= ($perso->nivel()->nivelcaracteristica()[3]->caracteristica()->getNome()); ?>  <input type="number" name="nv_caracteristica4" value="<?= $perso->nivel()->nivelcaracteristica()[3]->getNvCar() ?>" required> <br>
+                
+                <hr>
+
+                <?php
+                    foreach($perso->cmtpersonagem() as $cmt){
+                        echo $cmt->conhecimento()->getNome();
+                        ?>
+                        <input type="number" name="conhecimento[<?= $cmt->conhecimento()->getId() ?>]" value="<?= $cmt->getValor() ?>">
+                        <?php
+                        echo "<br>";
+                    }
+                ?>
             </div>
         
             <div>
