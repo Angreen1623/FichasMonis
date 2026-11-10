@@ -131,4 +131,29 @@ class CmtPersonagemDAO extends Database
         return $cmts;
     }
 
+    ###########################################################################
+
+    function selectByCmt_Perso(int $id_cmt, int $id_perso): CmtPersonagem
+    {
+        $query = "SELECT * FROM cmtpersonagem WHERE id_cmt = ? AND id_perso = ?";
+
+        $rows = $this->sql($query, [$id_cmt, $id_perso]);
+
+        if (!isset($rows)) {
+            throw new \Exception("Nenhum conhecimento encontrado para o personagem informado.");
+        }
+
+        $row = $rows[0];
+        
+        $cmt_personagem = new CmtPersonagem();
+
+        $cmt_personagem->setId($row["id_cmt_perso"]);
+        $cmt_personagem->setIdCmt($row["id_cmt"]);
+        $cmt_personagem->setIdPerso($row["id_perso"]);
+        $cmt_personagem->setValor($row["valor"]);        
+        
+
+        return $cmt_personagem;
+    }
+
 }

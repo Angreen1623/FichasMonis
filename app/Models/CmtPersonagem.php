@@ -29,6 +29,11 @@ class CmtPersonagem extends Model
         return (new CmtPersonagemDAO())->selectByPerso($id_perso);
     }
 
+    function getByCmt_Perso(int $id_cmt, int $id_perso): CmtPersonagem
+    {
+        return (new CmtPersonagemDAO())->selectByCmt_Perso($id_cmt, $id_perso);
+    }
+
     #endregion
 
     #region relationship

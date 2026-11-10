@@ -194,6 +194,15 @@ class FichaController extends \App\Core\Controller
             $status->setRd($_POST["rd"]);
             $status->save();
 
+            var_dump($_POST["conhecimento"]);
+
+            foreach($_POST["conhecimento"] as $key => $cmt){
+                $cmt_personagem = $this->model("cmtpersonagem")->getByCmt_Perso($key, $personagem->getId());
+                $cmt_personagem->setValor($cmt);
+                $cmt_personagem->save();
+            }
+
+
             $this->commitTransaction();
             
         } catch (Exception $e) {
