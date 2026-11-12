@@ -19,6 +19,7 @@ class Personagem extends Model
     private ?int $id_nv = null;
     private ?int $id_atributo = null;
     private ?int $mons = null;
+    private ?int $id_user = null;
 
     #region CRUD
 
@@ -30,6 +31,11 @@ class Personagem extends Model
     public function getById(int $id): ?Personagem
     {
         return (new PersonagemDAO())->selectbyId($id);
+    }
+
+    public function getByUser(int $id_user): ?array
+    {
+        return (new PersonagemDAO())->selectByUser($id_user);
     }
 
     #endregion
@@ -199,6 +205,16 @@ class Personagem extends Model
     public function setMons(?int $mons): void
     {
         $this->mons = $mons;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): void
+    {
+        $this->id_user = $id_user;
     }
 
     #endregion

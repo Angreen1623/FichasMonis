@@ -56,12 +56,50 @@ class PersonagemDAO extends Database
 
         return $personagem;
     }
+###############################################################################
 
+    public function selectByUser(int $id_user): ?array
+    {
+        $personagem = new Personagem();
+        $query = "SELECT * FROM personagem WHERE id_user = ?";
+        $params = [$id_user];
+
+        $rows = $this->sql($query, $params);
+
+
+        if ($rows == null) {
+            return null;
+        }
+
+        $personagens = [];
+
+        foreach($rows as $row){
+            $personagem = new Personagem();
+
+            $personagem->setNome($row["nome"]);
+            $personagem->setRegiao($row["regiao"]);
+            $personagem->setIdade($row["idade"]);
+            $personagem->setImg($row["img"]);
+            $personagem->setObjetivo($row["objetivo"]);
+            $personagem->setDestino($row["destino"]);
+            $personagem->setDim($row["dim"]);
+            $personagem->setIdStatus($row["id_status"]);
+            $personagem->setIdRaca($row["id_raca"]);
+            $personagem->setIdNv($row["id_nv"]);
+            $personagem->setIdAtributo($row["id_atributo"]);
+            $personagem->setMons($row["mons"]);
+            $personagem->setId($row["id_perso"]);
+
+            array_push($personagens, $personagem);
+        }
+
+        return $personagens;
+    }
     ###############################################################################
     
     public function insert(Personagem $personagem): Personagem
     {
-        $query = "INSERT INTO personagem (nome, dim, id_status, id_raca, id_nv, id_atributo) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO personagem (nome, dim, id_status, id_raca, id_nv, id_atributo, id_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 
         $parms = [
@@ -70,7 +108,8 @@ class PersonagemDAO extends Database
             $personagem->getIdStatus(),
             $personagem->getIdRaca(),
             $personagem->getIdNv(),
-            $personagem->getIdAtributo()
+            $personagem->getIdAtributo(),
+            $personagem->getIdUser()
         ];
 
         $this->sql($query, $parms);

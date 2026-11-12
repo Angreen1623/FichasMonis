@@ -45,6 +45,9 @@ class FichaController extends \App\Core\Controller
             $atributos->save();
             $personagem->setIdAtributo($atributos->getId());
 
+            $auth = $this->service("login");
+            $personagem->setIdUser($auth->getIdUser());
+
             $personagem->save();
 
             foreach ($personagem->raca()->carraca() as $carraca) {
@@ -194,8 +197,6 @@ class FichaController extends \App\Core\Controller
             $status->setRd($_POST["rd"]);
             $status->save();
 
-            var_dump($_POST["conhecimento"]);
-
             foreach($_POST["conhecimento"] as $key => $cmt){
                 $cmt_personagem = $this->model("cmtpersonagem")->getByCmt_Perso($key, $personagem->getId());
                 $cmt_personagem->setValor($cmt);
@@ -212,6 +213,18 @@ class FichaController extends \App\Core\Controller
 
         $this->redirect("editar-ficha/". $personagem->getId());
 
+    }
+
+    public function showFichas()
+    {
+        $auth = $this->service("Login");
+        $perso = $this->model("personagem")->getByUser($auth->getIdUser());
+
+        if($perso == null){
+            $this->redirect("criar-personagem");
+        }
+
+        $this->view("fichas/personagens", ["perso" => $perso]);
     }
 
     #######################################################################################    

@@ -6,25 +6,33 @@ class Router
 {
     private array $routes = [];
 
-    public function get(string $path, string $action): void
-    {
-        $this->add('GET', $path, $action);
+    public function get(
+        string $path,
+        string $action,
+        bool $auth = false
+    ): void {
+        $this->add('GET', $path, $action, $auth);
     }
 
-    public function post(string $path, string $action): void
-    {
-        $this->add('POST', $path, $action);
+    public function post(
+        string $path,
+        string $action,
+        bool $auth = false
+    ): void {
+        $this->add('POST', $path, $action, $auth);
     }
 
     private function add(
         string $method,
         string $path,
-        string $action
+        string $action,
+        bool $auth = false
     ): void {
         $this->routes[] = [
             'method' => $method,
             'path' => $path,
-            'action' => $action
+            'action' => $action,
+            'auth' => $auth
         ];
     }
 
@@ -59,6 +67,11 @@ class Router
                 if (is_string($key)) {
                     $params[$key] = rawurldecode($value);
                 }
+            }
+
+            if ($route['auth'] && !\App\Core\Auth::check()) {
+                header('Location: /FichasMonis/login');
+                exit;
             }
 
             $this->run(

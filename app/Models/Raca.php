@@ -19,7 +19,7 @@ class Raca extends Model
         return (new RacaDAO())->select();
     }
 
-    function getById($id_raca): ?Raca
+    function getById(int $id_raca): ?Raca
     {
         return (new RacaDAO())->selectById($id_raca);
     }

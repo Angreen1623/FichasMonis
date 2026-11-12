@@ -54,8 +54,6 @@ class RacaDAO extends Database
 
         $row = $rows[0];
 
-        $raca = new Raca();
-
         $raca->setId($row["id_raca"]);
         $raca->setNome($row["nome"]);
         $raca->setCapCarga($row["cap_carga"]);

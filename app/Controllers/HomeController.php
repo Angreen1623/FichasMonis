@@ -13,7 +13,7 @@ class HomeController extends \App\Core\Controller
     {
         $racas = $this->model("raca")->getAll();
         $arquetipos = $this->model("arquetipo")->getAll();
-        $this->view('home/criar_ficha', ["racas" => $racas, "arquetipos" => $arquetipos]);
+        $this->view('fichas/criar_ficha', ["racas" => $racas, "arquetipos" => $arquetipos]);
     }
 
     public function editarFicha($id): void
@@ -23,7 +23,7 @@ class HomeController extends \App\Core\Controller
         $arquetipos = $this->model("arquetipo")->getAll();
         $dim = $this->service("ImageMagick")->createDim($personagem->getDim());
 
-        $this->view('home/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos, "dim" => $dim]);
+        $this->view('fichas/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos, "dim" => $dim]);
     }
 
     public function criarDim(): void

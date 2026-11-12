@@ -15,7 +15,6 @@ class ImageMagickService
         $raca = $this->getRaca($dim);
 
         $hex = sprintf('#%02x%02x%02x', rand(0,255), rand(0,255), rand(0,255));
-        $cor = new ImagickPixel($hex);
         $opacidade = new ImagickPixel("rgba(255, 255, 255, 1)");
 
         $this->getImage("races/".$raca) != null 
