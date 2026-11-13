@@ -1,7 +1,0 @@
-Set-Cookie: __Host-session=abc123;
-HttpOnly;
-// Secure; //https
-SameSite=Strict; //Strict: Bloqueia o envio em requisições cross-site / Lax: Permite algumas navegações externas, mas restringe requisições cross-site / None:Permite envio cross-site; exige Secure
-Path=/;
-Max-Age=604800
-

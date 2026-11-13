@@ -13,7 +13,13 @@ class LoginService
     {
         $user = (new Usuario())->getByUsuario($usuario);
 
+        $this->endSession();
+
         if($user == null){
+            return false;
+        }
+
+        if(strlen($senha) < 8 || strlen($senha) > 100){
             return false;
         }
 
@@ -51,13 +57,16 @@ class LoginService
             return false;
         }
 
-        if(date("now") >= $session->getExpiresAt()){
+        $now = new DateTime("now");
+        $now = date_format($now, "Y-m-d H:i:s");
+
+        if($now >= $session->getExpiresAt()){
             $session->setExpiredAt($session->getExpiresAt());
             $session->save();
             return false;
         }
 
-        $session->setLastActivity(date("now"));
+        $session->setLastActivity($now);
         $session->save();
 
         return true;
@@ -68,18 +77,13 @@ class LoginService
         $days2expire = 1;
         $seconds2expire = ($days2expire*24)*3600;
 
+        $this->endSession();
+
         $dt = new DateTime("now");
         $expiring_date = new DateTime("now");
         $expiring_date->modify("+". $seconds2expire ." seconds");
         $dt = date_format($dt, "Y-m-d H:i:s");
         $expiring_date = date_format($expiring_date, "Y-m-d H:i:s");
-
-        if(isset($_COOKIE["session"])){
-            $session = new Session();
-            $session->setId($_COOKIE["session"]);
-            $session->setExpiredAt($dt);
-            $session->save();
-        }
 
         $session = new Session();
         $session->setIdUser($user->getId());
@@ -98,6 +102,20 @@ class LoginService
             'samesite' => 'Strict'
         ]);
         
+    }
+
+    private function endSession(): void
+    {
+
+        $dt = new DateTime("now");
+        $dt = date_format($dt, "Y-m-d H:i:s");
+
+        if(isset($_COOKIE["session"])){
+            $session = new Session();
+            $session->setId($_COOKIE["session"]);
+            $session->setExpiredAt($dt);
+            $session->save();
+        }
     }
 
     public function getIdUser(): ?int

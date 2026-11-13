@@ -19,7 +19,7 @@ class Arquetipo extends Model
         return (new ArquetipoDAO())->select();
     }
 
-    public function getById(int $id_arq): Arquetipo
+    public function getById(int $id_arq): ?Arquetipo
     {
         return (new ArquetipoDAO())->selectById($id_arq);
     }

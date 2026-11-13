@@ -52,6 +52,9 @@ class Usuario extends Model
     }
 
     public function setSenha(string $senha): void {
+        if(password_get_info($senha)["algo"] == null || strlen($senha) < 8 || strlen($senha) > 100){
+            throw new \Exception("Senha Invalida", 1);
+        }
         $this->senha = $senha;
     }
 

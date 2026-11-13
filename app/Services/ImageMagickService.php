@@ -10,8 +10,12 @@ use App\Models\Raca;
 class ImageMagickService
 {
 
-    public function createDim(string $dim): string
+    public function createDim(string $dim): ?string
     {
+        if(!extension_loaded('imagemagick.dll')){
+            return null;
+        }
+
         $raca = $this->getRaca($dim);
 
         $hex = sprintf('#%02x%02x%02x', rand(0,255), rand(0,255), rand(0,255));

@@ -96,12 +96,16 @@ class FichaController extends \App\Core\Controller
 
             $this->commitTransaction();
             
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
+            $e = $exception;
+
             $this->rollbackTransaction();
-            throw $e;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
         }
 
-        $this->redirect("editar-ficha/". $personagem->getId());
+        if(!isset($e)){
+            $this->redirect("editar-ficha/". $personagem->getId());
+        }
 
     }
 
@@ -210,25 +214,37 @@ class FichaController extends \App\Core\Controller
 
             $this->commitTransaction();
             
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
+            $e = $exception;
+
             $this->rollbackTransaction();
-            throw $e;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
         }
 
-        $this->redirect("editar-ficha/". $personagem->getId());
+        if(!isset($e)){
+            $this->redirect("editar-ficha/". $personagem->getId());
+        }
 
     }
 
     public function showFichas()
     {
+        try {
         $auth = $this->service("Login");
         $perso = $this->model("personagem")->getByUser($auth->getIdUser());
 
         if($perso == null){
             $this->redirect("criar-personagem");
+        } 
+        
+        }catch (\Exception $exception) {
+            $e = $exception;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
         }
 
-        $this->view("fichas/personagens", ["perso" => $perso]);
+        if(!isset($e)){
+            $this->view("fichas/personagens", ["perso" => $perso]);
+        }
     }
 
     #######################################################################################    

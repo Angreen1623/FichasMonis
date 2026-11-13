@@ -11,9 +11,17 @@ class LoginController extends \App\Core\Controller
 
     public function Login(): void
     {
+        try{
         $this->service("Login")->autenticar($_POST["usuario"], $_POST["senha"]);
+        
+        }catch (\Exception $exception) {
+            $e = $exception;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
+        }
 
-        $this->redirect('/FichasMonis');
+        if(!isset($e)){
+            $this->redirect('/FichasMonis');
+        }
     }
 
     public function showSign(): void
@@ -23,15 +31,25 @@ class LoginController extends \App\Core\Controller
 
     public function Sign(): void
     {
+        try{
+        $this->beginTransaction();
         $user = $this->model("Usuario");
         
         $user->setUsuario($_POST["usuario"]);
         $user->setSenha(password_hash($_POST["senha"], PASSWORD_DEFAULT));
         $user->save();
 
-        $this->service("Login")->autenticar($_POST["usuario"], $_POST["senha"]);
+        $this->commitTransaction();
 
-        $this->redirect('/FichasMonis');
+        }catch (\Exception $exception) {
+            $this->rollbackTransaction();
+            $e = $exception;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
+        }
+
+        if(!isset($e)){
+            $this->redirect('/FichasMonis');
+        }
     }
 
 }

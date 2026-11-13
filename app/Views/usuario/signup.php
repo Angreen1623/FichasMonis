@@ -7,6 +7,8 @@
 </head>
 <body>
 
+    <?php $this->view("layout/navbar"); ?>
+
     <form action="signup" method="POST">
         Usuario <input name="usuario" type="text"> <br>
         Senha <input name="senha" type="password">

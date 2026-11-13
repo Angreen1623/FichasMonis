@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\DAO\NivelArquetipoDAO;
 
+use App\Models\Arquetipo;
+
 class NivelArquetipo extends Model
 {
     private ?int $id = null;
@@ -67,6 +69,9 @@ class NivelArquetipo extends Model
 
     public function setIdArq(?int $id_arq): void
     {
+        if((new Arquetipo())->getById($id_arq) == null){
+            throw new \Exception("Arquetipo não encontrado", 1);
+        }
         $this->id_arq = $id_arq;
     }
 

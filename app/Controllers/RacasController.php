@@ -6,10 +6,18 @@ class RacasController extends \App\Core\Controller
 {
     public function listar(): void
     {
-        $racas = $this->model('Raca');
-        $racas = $racas->getAll();
+        try{
+            $racas = $this->model('Raca');
+            $racas = $racas->getAll();
 
-        $this->view('catalogos/racas', ['racas' => $racas]);
+        }catch (\Exception $exception) {
+            $e = $exception;
+            $this->view("home/erro", ["erro" => $e->getMessage()]);
+        }
+
+        if(!isset($e)){
+            $this->view('catalogos/racas', ['racas' => $racas]);
+        }
     }
 
 }
