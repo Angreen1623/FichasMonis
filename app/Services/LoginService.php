@@ -6,7 +6,6 @@ use App\Models\Usuario;
 use App\Models\Session;
 
 use DateTime;
-use DateTimeZone;
 
 class LoginService
 {
@@ -34,11 +33,32 @@ class LoginService
         }
 
         $session = new Session();
-        $session->getById($_COOKIE["session"]);
+        $session = $session->getById($_COOKIE["session"]);
 
-        if($session == null){
+        if($session == null || $session->getExpiredAt() != null ){
             return false;
         }
+
+        if($_SERVER['REMOTE_ADDR'] != $session->getIpAddress() || $_SERVER['HTTP_USER_AGENT'] != $session->getUserAgent()){
+            
+            setcookie('session', '', [
+                'expires' => 0,
+                'path' => '/',
+                'secure' => false,
+                'httponly' => true,
+                'samesite' => 'Strict'
+            ]);
+            return false;
+        }
+
+        if(date("now") >= $session->getExpiresAt()){
+            $session->setExpiredAt($session->getExpiresAt());
+            $session->save();
+            return false;
+        }
+
+        $session->setLastActivity(date("now"));
+        $session->save();
 
         return true;
     }
