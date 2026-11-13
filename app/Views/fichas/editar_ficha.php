@@ -19,7 +19,7 @@
             <div>
             <input type="hidden" name="id_perso" value="<?= $perso->getId() ?>">
             Nome <input type="text" name="nome" placeholder="Nome do personagem" value="<?= $perso->getNome(); ?>" required> <br>
-            <img src="../public/images/dim/dims/<?= ($dim ?? '') ?>" alt="Imagem do DIM"> <br>
+            <img src="../public/images/dim/dims/<?= ($perso->getDimImg() ?? '') ?>" alt="Imagem do DIM"> <br>
 
             Raça <select name="id_raca" required>
                 <?php

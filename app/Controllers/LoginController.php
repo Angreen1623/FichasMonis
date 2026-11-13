@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\Usuario;
-
 class LoginController extends \App\Core\Controller
 {
     public function showLogin(): void

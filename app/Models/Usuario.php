@@ -22,6 +22,11 @@ class Usuario extends Model
         return (new UsuarioDAO())->selectByUsuario($usuario);
     }
 
+    public function getById(int $id): ?Usuario
+    {
+        return (new UsuarioDAO())->selectById($id);
+    }
+
     #endregion
 
     #region Getters and Setters

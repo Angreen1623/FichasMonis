@@ -13,6 +13,28 @@ class UsuarioDAO extends Database
 
     ###############################################################################
     
+    public function selectById(int $id): ?Usuario {
+        $query = "SELECT * FROM usuario WHERE id_user = ?";
+
+        $user = new Usuario();
+
+        $rows = $this->sql($query, [$id]);
+
+        if($rows == null){
+            return null;
+        }
+
+        $row = $rows[0];
+
+        $user->setId($row["id_user"]);
+        $user->setUsuario($row["usuario"]);
+        $user->setSenha($row["senha"]);
+
+        return $user;
+    }
+
+    ###############################################################################
+    
     public function selectByUsuario(string $usuario): ?Usuario {
         $query = "SELECT * FROM usuario WHERE usuario = ?";
 

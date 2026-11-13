@@ -16,14 +16,13 @@ class HomeController extends \App\Core\Controller
         $this->view('fichas/criar_ficha', ["racas" => $racas, "arquetipos" => $arquetipos]);
     }
 
-    public function editarFicha($id): void
+    public function editarFicha(int $id): void
     {
         $personagem = $this->model("personagem")->getById($id);
         $racas = $this->model("raca")->getAll();
         $arquetipos = $this->model("arquetipo")->getAll();
-        $dim = $this->service("ImageMagick")->createDim($personagem->getDim());
 
-        $this->view('fichas/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos, "dim" => $dim]);
+        $this->view('fichas/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos]);
     }
 
     public function criarDim(): void

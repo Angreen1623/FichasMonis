@@ -14,6 +14,7 @@ class Personagem extends Model
     private ?string $objetivo = null;
     private ?string $destino = null;
     private ?string $dim = null;
+    private ?string $dim_img = null;
     private ?int $id_status = null;
     private ?int $id_raca = null;
     private ?int $id_nv = null;
@@ -154,6 +155,16 @@ class Personagem extends Model
     public function setDim(?string $dim): void
     {
         $this->dim = $dim;
+    }
+
+    public function getDimImg(): ?string
+    {
+        return $this->dim_img;
+    }
+
+    public function setDimImg(?string $dim_img): void
+    {
+        $this->dim_img = $dim_img;
     }
 
     public function getIdStatus(): ?int

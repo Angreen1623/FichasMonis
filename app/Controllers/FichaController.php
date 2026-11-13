@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\NivelArquetipo;
 use App\Models\NivelCaracteristica;
-use App\Models\Personagem;
 use Exception;
 
 class FichaController extends \App\Core\Controller
@@ -33,7 +32,13 @@ class FichaController extends \App\Core\Controller
             $status = $this->model('Status')->save();
 
             $personagem->setIdStatus($status->getId());
-            $personagem->setDim($this->gerarDim($_POST['nome'], $_POST['id_raca']));
+
+            $auth = $this->service("Login");
+            $user = ($this->model("Usuario"))->getById($auth->getIdUser());
+
+            $dim = $this->gerarDim($user->getUsuario(), $_POST['id_raca']);
+            $personagem->setDim($dim);
+            $personagem->setDimImg($this->service("ImageMagick")->createDim($personagem->getDim()));
 
             $atributos = $this->model('Atributo');
             $atributos->setPotencia($_POST['potencia']);
@@ -45,7 +50,6 @@ class FichaController extends \App\Core\Controller
             $atributos->save();
             $personagem->setIdAtributo($atributos->getId());
 
-            $auth = $this->service("login");
             $personagem->setIdUser($auth->getIdUser());
 
             $personagem->save();

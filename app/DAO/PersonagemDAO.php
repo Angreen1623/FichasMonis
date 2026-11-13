@@ -46,6 +46,7 @@ class PersonagemDAO extends Database
         $personagem->setObjetivo($row["objetivo"]);
         $personagem->setDestino($row["destino"]);
         $personagem->setDim($row["dim"]);
+        $personagem->setDimImg($row["dim_img"]);
         $personagem->setIdStatus($row["id_status"]);
         $personagem->setIdRaca($row["id_raca"]);
         $personagem->setIdNv($row["id_nv"]);
@@ -83,6 +84,7 @@ class PersonagemDAO extends Database
             $personagem->setObjetivo($row["objetivo"]);
             $personagem->setDestino($row["destino"]);
             $personagem->setDim($row["dim"]);
+            $personagem->setDimImg($row["dim_img"]);
             $personagem->setIdStatus($row["id_status"]);
             $personagem->setIdRaca($row["id_raca"]);
             $personagem->setIdNv($row["id_nv"]);
@@ -99,12 +101,13 @@ class PersonagemDAO extends Database
     
     public function insert(Personagem $personagem): Personagem
     {
-        $query = "INSERT INTO personagem (nome, dim, id_status, id_raca, id_nv, id_atributo, id_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO personagem (nome, dim, dim_img, id_status, id_raca, id_nv, id_atributo, id_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 
         $parms = [
             $personagem->getNome(),
             $personagem->getDim(),
+            $personagem->getDimImg(),
             $personagem->getIdStatus(),
             $personagem->getIdRaca(),
             $personagem->getIdNv(),

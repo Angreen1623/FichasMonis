@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/11/2026 às 20:52
+-- Tempo de geração: 13/11/2026 às 02:11
 -- Versão do servidor: 10.11.16-MariaDB
 -- Versão do PHP: 8.5.12
 
@@ -74,7 +74,6 @@ CREATE TABLE `atributo` (
   `espirito` smallint(6) NOT NULL DEFAULT 0,
   `percepcao` smallint(6) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 
 -- --------------------------------------------------------
 
@@ -494,7 +493,7 @@ INSERT INTO `habilidade` (`id_hab`, `nome`, `descricao`, `img`) VALUES
 (22, 'Conhecimento Oculto', 'Em cenas de exploração, investigação ou em qualquer teste para descobrir algo você pode gastar 2 de mana para diminuir a dificuldade do teste para 4 (passando tirando 4, 5 ou 6 no dado).', NULL),
 (23, 'Filhas da guerra', 'Harpias foram forjadas para a batalha, e sabem se aproveitar das desvantagens inimigas, você pode fazer um teste de Luta ou Proteção como uma ação padrão, a cada 2 sucessos você sabe uma fraqueza do inimigo, se o inimigo não tiver fraquezas você tem +1 de dano em ataques contra ele.', NULL),
 (24, 'Persistência', 'Humanos tem a incrível capacidade de esforço além de suas capacidades, indo atrás de superar seus problemas com a garra que nenhuma outra raça tem, uma vez por cena, você pode gastar 3 de mana para re-rolar todos os dados fracassados em um teste.', NULL),
-(25, 'Possessão Forçada', 'A morte é só uma casca para a importancia da sua existencia, quando estiver tocando um cadaver você pode gastar 3 de mana para entrar no corpo como um fantasma em uma possessão, você passa a ter essa aparencia mantendo sua voz e cor dos olhos, após 1 mês o corpo rejeita sua existencia te empurrando para fora apodrecendo instantaneamente', NULL),
+(25, 'Possessão Forçada', 'A morte é só uma casca para a importancia da sua existencia, quando estiver tocando um cadaver você pode gastar 3 de mana para entrar no corpo como um fantasma em uma possessão, você passa a ter essa aparencia mantendo sua voz e cor dos olhos, após 1 mês o corpo rejeita sua existencia te empurrando para fora apodrecendo instantaneamente.', NULL),
 (26, 'Percepção Emocional', 'Você consegue ler as pessoas como livros abertos, seu terceiro olho é adaptado para captar os sentimentos daqueles ao seu redor, sempre que analisar alguém você consegue ter uma leitura sobre o que ela esta sentindo, além de ter um +1 dado em testes para identificar as intenções de alguém.', NULL),
 (27, 'Frenesi', 'Mothis são caçadoras naturais, alguns acreditam que amaldiçoadas a viver caçando, Mothis alimentam-se apenas de carne, caso tenham se alimentado no dia, podem entrar em frenesi gastando 2 de mana, durante o frenesi seus bônus de atributos são dobrados, o frenesi dura 2 rodadas, após isso o personagem ficara faminto.', NULL),
 (28, 'Quatro Invernos', 'Os Nevaliths evoluíram para sobreviver nas montanhas gélidas de snowlay, tendo um par de braços a mais para se locomover entre os grandes pináculos, você pode ter até 4 itens segurados e ate dois itens que precisam ser usados com as duas mãos, pode gastar 4 de mana para poder usar um item adicional na rodada até 4 vezes na rodada. itens de duas mãos só são podem ser ativos uma vez e gasta 8 de mana.', NULL),
@@ -574,17 +573,19 @@ CREATE TABLE `personagem` (
   `id_perso` int(10) UNSIGNED NOT NULL,
   `nome` varchar(100) NOT NULL,
   `regiao` varchar(100) DEFAULT NULL,
-  `idade` smallint(5) UNSIGNED DEFAULT NULL,
+  `idade` varchar(50) DEFAULT NULL,
   `img` varchar(2048) DEFAULT NULL,
   `objetivo` text DEFAULT NULL,
   `destino` text DEFAULT NULL,
   `dim` varchar(11) NOT NULL,
+  `dim_img` varchar(100) DEFAULT NULL,
   `id_status` int(10) UNSIGNED NOT NULL,
   `id_raca` int(10) UNSIGNED NOT NULL,
   `id_nv` int(10) UNSIGNED NOT NULL,
   `id_atributo` int(10) UNSIGNED NOT NULL,
   `id_item_inventario` int(10) UNSIGNED DEFAULT NULL,
-  `mons` int(10) UNSIGNED NOT NULL DEFAULT 0
+  `mons` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -656,6 +657,23 @@ CREATE TABLE `requisitohabilidade` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `session`
+--
+
+CREATE TABLE `session` (
+  `id_session` varchar(64) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `last_activity` datetime NOT NULL DEFAULT current_timestamp(),
+  `expires_at` datetime NOT NULL,
+  `expired_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `status`
 --
 
@@ -676,6 +694,22 @@ CREATE TABLE `status` (
   `rd` smallint(6) NOT NULL DEFAULT 0,
   `dt_conjuracao` smallint(6) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id_user` int(11) NOT NULL,
+  `usuario` varchar(50) NOT NULL,
+  `senha` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tabelas despejadas
+--
 
 --
 -- Índices de tabela `arquetipo`
@@ -776,7 +810,8 @@ ALTER TABLE `nivel`
 --
 ALTER TABLE `nivelarquetipo`
   ADD PRIMARY KEY (`id_nv_arq`),
-  ADD KEY `fk_nvarq_nv` (`id_nv`);
+  ADD KEY `fk_nvarq_nv` (`id_nv`),
+  ADD KEY `fk_nvarq_arq` (`id_arq`);
 
 --
 -- Índices de tabela `nivelcaracteristica`
@@ -794,7 +829,8 @@ ALTER TABLE `personagem`
   ADD UNIQUE KEY `uq_perso_status` (`id_status`),
   ADD UNIQUE KEY `uq_perso_nv` (`id_nv`),
   ADD UNIQUE KEY `uq_perso_atributo` (`id_atributo`),
-  ADD KEY `fk_perso_raca` (`id_raca`);
+  ADD KEY `fk_perso_raca` (`id_raca`),
+  ADD KEY `fk_personagem_user` (`id_user`);
 
 --
 -- Índices de tabela `raca`
@@ -811,10 +847,24 @@ ALTER TABLE `requisitohabilidade`
   ADD UNIQUE KEY `uq_req` (`id_hab`,`grupo`,`tipo`,`id_alvo`);
 
 --
+-- Índices de tabela `session`
+--
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`id_session`),
+  ADD KEY `fk_session_user` (`id_user`);
+
+--
 -- Índices de tabela `status`
 --
 ALTER TABLE `status`
   ADD PRIMARY KEY (`id_status`);
+
+--
+-- Índices de tabela `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_user`),
+  ADD UNIQUE KEY `usuario` (`usuario`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -830,7 +880,7 @@ ALTER TABLE `arquetipo`
 -- AUTO_INCREMENT de tabela `atributo`
 --
 ALTER TABLE `atributo`
-  MODIFY `id_atributo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_atributo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `attraca`
@@ -896,25 +946,25 @@ ALTER TABLE `habperonagem`
 -- AUTO_INCREMENT de tabela `nivel`
 --
 ALTER TABLE `nivel`
-  MODIFY `id_nv` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_nv` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `nivelarquetipo`
 --
 ALTER TABLE `nivelarquetipo`
-  MODIFY `id_nv_arq` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_nv_arq` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `nivelcaracteristica`
 --
 ALTER TABLE `nivelcaracteristica`
-  MODIFY `id_nv_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_nv_car` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `personagem`
 --
 ALTER TABLE `personagem`
-  MODIFY `id_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_perso` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
@@ -932,7 +982,13 @@ ALTER TABLE `requisitohabilidade`
 -- AUTO_INCREMENT de tabela `status`
 --
 ALTER TABLE `status`
-  MODIFY `id_status` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+  MODIFY `id_status` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -1006,13 +1062,20 @@ ALTER TABLE `personagem`
   ADD CONSTRAINT `fk_perso_atributo` FOREIGN KEY (`id_atributo`) REFERENCES `atributo` (`id_atributo`),
   ADD CONSTRAINT `fk_perso_nv` FOREIGN KEY (`id_nv`) REFERENCES `nivel` (`id_nv`),
   ADD CONSTRAINT `fk_perso_raca` FOREIGN KEY (`id_raca`) REFERENCES `raca` (`id_raca`),
-  ADD CONSTRAINT `fk_perso_status` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`);
+  ADD CONSTRAINT `fk_perso_status` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`),
+  ADD CONSTRAINT `fk_personagem_user` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `requisitohabilidade`
 --
 ALTER TABLE `requisitohabilidade`
   ADD CONSTRAINT `fk_req_hab` FOREIGN KEY (`id_hab`) REFERENCES `habilidade` (`id_hab`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `session`
+--
+ALTER TABLE `session`
+  ADD CONSTRAINT `fk_session_user` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

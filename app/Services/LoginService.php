@@ -80,8 +80,12 @@ class LoginService
         
     }
 
-    public function getIdUser(): int
+    public function getIdUser(): ?int
     {
+        if($_COOKIE["session"] == null){
+            return null;
+        }
+
         $session = (new Session())->getById($_COOKIE["session"]);
         return $session->getIdUser();
     }
