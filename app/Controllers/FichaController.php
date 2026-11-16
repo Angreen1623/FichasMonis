@@ -103,7 +103,7 @@ class FichaController extends \App\Core\Controller
             $this->view("home/erro", ["erro" => $e->getMessage()]);
         }
 
-        if(!isset($e)){
+        if(!isset($e) && isset($personagem)){
             $this->redirect("editar-ficha/". $personagem->getId());
         }
 

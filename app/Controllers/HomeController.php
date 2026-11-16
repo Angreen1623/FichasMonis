@@ -37,8 +37,13 @@ class HomeController extends \App\Core\Controller
         }
 
         if(!isset($e)){
-        $this->view('fichas/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos]);
+            $this->view('fichas/editar_ficha', ["perso" => $personagem, "racas" => $racas, "arquetipos" => $arquetipos]);
         }
+    }
+
+    public function showLivro(): void
+    {
+        $this->view("catalogos/livro");
     }
 
     public function criarDim(): void

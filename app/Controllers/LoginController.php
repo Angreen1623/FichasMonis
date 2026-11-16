@@ -41,6 +41,8 @@ class LoginController extends \App\Core\Controller
 
         $this->commitTransaction();
 
+        $this->service("Login")->autenticar($_POST["usuario"], $_POST["senha"]);
+
         }catch (\Exception $exception) {
             $this->rollbackTransaction();
             $e = $exception;

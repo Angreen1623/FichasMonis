@@ -18,6 +18,8 @@ $router->get('/FichasMonis/caracteristicas', 'CaracteristicaController@listar');
 
 $router->get('/FichasMonis/dim', 'HomeController@criarDim');
 
+$router->get('/FichasMonis/livro', 'HomeController@showLivro');
+
 $router->get('/FichasMonis/criar-personagem', 'HomeController@cadastrarFicha', true);
 $router->post('/FichasMonis/criar-ficha', 'FichaController@criar', true);
 $router->get('/FichasMonis/personagens', 'FichaController@showFichas', true);

@@ -12,7 +12,7 @@ class ImageMagickService
 
     public function createDim(string $dim): ?string
     {
-        if(!extension_loaded('imagemagick.dll')){
+        if(!extension_loaded('imagick')){
             return null;
         }
 

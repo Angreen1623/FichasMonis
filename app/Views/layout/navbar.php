@@ -6,5 +6,6 @@
 	<a href="/FichasMonis/dim">Dim</a>
 	<a href="/FichasMonis/criar-personagem">Personagem</a>
 	<a href="/FichasMonis/personagens">Personagens</a>
+	<a href="/FichasMonis/livro">Livro de regras</a>
 	<a href="/FichasMonis/login">Login</a>
 </nav>
