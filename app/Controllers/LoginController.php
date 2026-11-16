@@ -32,6 +32,15 @@ class LoginController extends \App\Core\Controller
     public function Sign(): void
     {
         try{
+
+        if(strlen($_POST["senha"]) < 8 || strlen($_POST["senha"]) > 100){
+            throw new \Exception("Senha menor que 8 digitos ou maior que 100.");
+        }
+
+        if($_POST["usuario"] == ""){
+            throw new \Exception("Usuário vazio.");
+        }
+
         $this->beginTransaction();
         $user = $this->model("Usuario");
         
@@ -42,6 +51,7 @@ class LoginController extends \App\Core\Controller
         $this->commitTransaction();
 
         $this->service("Login")->autenticar($_POST["usuario"], $_POST["senha"]);
+        
 
         }catch (\Exception $exception) {
             $this->rollbackTransaction();

@@ -16,15 +16,15 @@ class LoginService
         $this->endSession();
 
         if($user == null){
-            return false;
+            throw new \Exception("Usuário ou senha inválidos.");
         }
 
         if(strlen($senha) < 8 || strlen($senha) > 100){
-            return false;
+            throw new \Exception("Usuário ou senha inválidos.");
         }
 
         if(!password_verify($senha, $user->getSenha())){
-            return false;
+            throw new \Exception("Usuário ou senha inválidos.");
         }
 
         $this->regenerateSession($user);
